@@ -1,0 +1,93 @@
+.course-details {
+  max-width: fit-content;
+  margin: auto;
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.back-arrow {
+  display: inline-block;
+  font-size: 1.8em;
+  color: #3498db;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.report-table {
+  width: fit-content;
+  min-width: 600px;
+  margin-top: 10px;
+  text-align: center;
+  border-collapse: collapse; /* important for clean borders */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.report-table th {
+  border-bottom: 2px solid #ababab; /* strong bottom border for header */
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+.report-table td {
+  padding: 10px;
+  border-left: 2px solid #d4d4d4;
+  border-right: 2px solid #d4d4d4;
+}
+
+/* Optional: add top/bottom border to data cells for full grid */
+.report-table td:first-child {
+  border-left: none;
+}
+.report-table td:last-child {
+  border-right: none;
+}
+
+/* Row backgrounds */
+.report-table tr:nth-child(even) td {
+  background-color: #f0f0f0;
+}
+.report-table tr:nth-child(odd) td {
+  background-color: #ffffff;
+}
+
+.report-table tr:hover td {
+  background-color: #e6f7ff;
+}
+
+/* Column ellipsis behavior */
+.report-table td:nth-child(3),
+.report-table th:nth-child(3) {
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.error-messages {
+  background: #ffe0e0;
+  color: #b10000;
+  border: 1px solid #ffb3b3;
+  border-radius: 6px;
+  padding: 12px 18px;
+  margin-bottom: 18px;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(255, 0, 0, 0.04);
+}
+
+.success-message {
+  background: #e6ffe6;
+  color: #207520;
+  border: 1px solid #b3ffb3;
+  border-radius: 6px;
+  padding: 12px 18px;
+  margin-bottom: 18px;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 128, 0, 0.04);
+}
+
+.error-messages p,
+.success-message p {
+  margin: 0;
+}

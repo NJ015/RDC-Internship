@@ -1,0 +1,76 @@
+.course-details {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.back-arrow {
+  display: inline-block;
+  margin-bottom: 15px;
+  font-size: 1.8em;
+  color: #3498db;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button {
+  width: fit-content;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  margin: 5px 2px;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-size: medium;
+}
+
+.schedule-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.schedule-form input,
+.schedule-form textarea,
+.schedule-form select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+textarea {
+  height: 120px;
+}
+
+.error-messages {
+  background: #ffe0e0;
+  color: #b10000;
+  border: 1px solid #ffb3b3;
+  border-radius: 6px;
+  padding: 12px 18px;
+  margin-bottom: 18px;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(255, 0, 0, 0.04);
+}
+
+.success-message {
+  background: #e6ffe6;
+  color: #207520;
+  border: 1px solid #b3ffb3;
+  border-radius: 6px;
+  padding: 12px 18px;
+  margin-bottom: 18px;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 128, 0, 0.04);
+}
+
+.error-messages p,
+.success-message p {
+  margin: 0;
+}

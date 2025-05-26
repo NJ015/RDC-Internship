@@ -1,0 +1,102 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 2rem;
+  color: #333;
+}
+
+a.report-button {
+  display: inline-block;
+  margin: 0.5rem 1rem 1.5rem 0;
+  padding: 0.6rem 1.2rem;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+a.report-button:hover {
+  background-color: #0056b3;
+}
+
+.error-messages {
+  background: #ffe0e0;
+  color: #b10000;
+  border: 1px solid #ffb3b3;
+  border-radius: 6px;
+  padding: 12px 18px;
+  margin-bottom: 18px;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(255, 0, 0, 0.04);
+}
+
+.success-message {
+  background: #e6ffe6;
+  color: #207520;
+  border: 1px solid #b3ffb3;
+  border-radius: 6px;
+  padding: 12px 18px;
+  margin-bottom: 18px;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 128, 0, 0.04);
+}
+
+.error-messages p,
+.success-message p {
+  margin: 0;
+}
+
+.form-and-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.course-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.course-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  color: #2c3e50;
+}
+
+.course-card p {
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.course-card .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.course-card .description {
+  color: #555;
+  font-style: italic;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  line-height: 1.4em;
+  max-height: calc(1.4em * 5);
+  text-overflow: ellipsis;
+  white-space: normal; /* allow multiline */
+  word-break: break-word; /* prefer full word breaks */
+  overflow-wrap: break-word; /* wrap at natural break points */
+}

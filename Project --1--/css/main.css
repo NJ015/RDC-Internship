@@ -1,0 +1,426 @@
+/* .course-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px;
+  width: 400px;
+  height: 250px;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+}
+
+.course-card h3,
+.course-card p {
+  margin: 0 0 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.course-card p.description {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 10; 
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.course-details {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.course-details h2 {
+  margin-bottom: 10px;
+  font-size: 2em;
+  color: #2c3e50;
+  margin-top: auto;
+}
+
+.course-details p {
+  font-size: 1em;
+  line-height: 1.5;
+  margin: 10px 0;
+}
+
+.form-and-cards-container {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  padding: 20px;
+  flex-wrap: wrap;
+  
+}
+
+.form-section {
+  flex: 1;
+  min-width: 450px;
+  
+  top: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  justify-content: space-evenly;
+}
+
+.form-group {
+  flex: 1;
+  position: relative;
+}
+
+.add-course-form {
+  background-color: #ffffff;
+  max-width: 500px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.add-course-form h2 {
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.add-course-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+.add-course-form input,
+.add-course-form textarea,
+.add-course-form select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  transition: all 0.3s ease;
+}
+
+.add-course-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.add-course-form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+.add-course-form button:hover {
+  background-color: #0056b3;
+}
+
+.course-list {
+  flex: 2;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  align-content: start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.actions {
+  margin: 15px 0;
+}
+
+.actions a {
+  text-decoration: none;
+  font-weight: 600;
+  margin: 10px;
+}
+
+.actions a:hover {
+  text-decoration: underline;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 25px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table th,
+table td {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table th {
+  background-color: #f2f2f2;
+  font-weight: 700;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+h3,
+h4 {
+  color: #34495e;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.back-arrow {
+  display: inline-block;
+  margin-bottom: 15px;
+  font-size: 1.8em;
+  color: #3498db;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.back-arrow:hover {
+  color: #2573a7;
+}
+
+.schedule-form {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 25px 30px;
+  max-width: 450px;
+  margin-top: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.schedule-form h4 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+}
+
+.schedule-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #444;
+  font-size: 14px;
+}
+
+.schedule-form input,
+.schedule-form textarea,
+.schedule-form select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 18px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #fafafa;
+  transition: border 0.2s;
+}
+
+.schedule-form input:focus,
+.schedule-form textarea:focus,
+.schedule-form select:focus {
+  border-color: #007bff;
+  outline: none;
+  background-color: #fff;
+}
+
+.schedule-form button {
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 5px;
+}
+
+.schedule-form button:hover {
+  background-color: #0056b3;
+}
+
+.schedule-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.delete-btn {
+  display: inline;
+  border: none;
+  appearance: none;
+  color: red;
+  background-color: white;
+  font-size: medium;
+  font-weight: bold;
+}
+
+.delete-btn:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.edit {
+  display: inline;
+  border: none;
+  appearance: none;
+  color: #007bff;
+  background-color: white;
+  font-size: medium;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.edit:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
+.student-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin: 10px;
+  width: 250px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  gap: 20px;
+}
+
+.student-card .student-info {
+  
+  overflow: hidden;
+}
+
+.student-card h3,
+.student-card p {
+  margin: 0 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.student-card p.student-email {
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #555;
+}
+
+.form-section-stu {
+  flex: 1;
+  min-width: 450px;
+}
+
+.form-row-stu {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-bottom: 20px;
+  width: 90%;
+  justify-content: space-evenly;
+}
+.form-group-stu {
+  width: auto;
+}
+
+.add-student-form {
+  background-color: #ffffff;
+  max-width: 500px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.add-student-form h2 {
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.add-student-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+.add-student-form input,
+.add-student-form select {
+  width: 100%; 
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  transition: all 0.3s ease;
+}
+
+.add-student-form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: flex-end;
+}
+
+.add-student-form button:hover {
+  background-color: #0056b3;
+}
+
+
+.student-details{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+ */
