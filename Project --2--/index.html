@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body>
+    <div class="card menu">
+      <!-- Home, About Me, Skills & Experience, Projects, and Contact. -->
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About Me</a></li>
+          <li><a href="#skills-exp">Skills & Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="header">
+      <div class="card hero">
+        <img
+          src="assets/profile-pic.jpeg"
+          alt="Nour Jalloul"
+          class="profile-pic"
+        />
+        <h2>Nour Jalloul</h2>
+      </div>
+      <section id="home" class="card home-section">
+        <h2>Hello! <span class="wave">👋🏻</span></h2>
+        <p>
+          I'm <strong>Nour Jalloul</strong>, a fresh graduate from the
+          <strong>Lebanese American University</strong>, majored in
+          <strong>Computer Science</strong>. I am passionate about
+          <strong>Web Development</strong>.
+        </p>
+        <p>
+          I enjoy turning complex problems into simple, elegant solutions using
+          modern technologies. I love learning new things and am always looking
+          for opportunities to grow and improve my skills.
+        </p>
+        <p>Let's build something awesome together! 🚀</p>
+      </section>
+    </div>
+    <main>
+      <section id="about" class="card about">
+        <h2>About Me</h2>
+        <p class="about-text">
+          I'm Nour Jalloul — a final-year Computer Science student with a strong
+          foundation in full-stack web development. I enjoy building clean,
+          functional websites and applications that solve real problems. Whether
+          it's working on frontend with HTML/CSS or diving into backend logic
+          with PHP or JS, I love putting things together that just work.
+        </p>
+        <p class="about-text">
+          Over time, I've gained hands-on experience through coursework,
+          internships, and personal projects. I'm always curious, always
+          learning, and I try to bring a mix of creativity and structure to
+          everything I build.
+        </p>
+        <div class="personal-goal">
+          <h2>My Mission</h2>
+          <p>
+            I aspire to become a web developer focused on building clean,
+            user-friendly experiences. My goal is to craft meaningful digital
+            products that solve real problems, grow with users, and make
+            technology feel more human.
+          </p>
+        </div>
+
+        <div class="experience-skills">
+          <div class="experience">
+            <h3>Experience</h3>
+            <ul>
+              <li id="ids" title="2 month">
+                Intern at IDS - PHP Web Development
+              </li>
+              <li id="areeba" title="2 month">
+                Intern at Areeba - React Web Development
+              </li>
+              <li id="uni" title="1 year">
+                University Projects - Full-stack websites
+              </li>
+            </ul>
+          </div>
+
+          <div class="skills">
+            <h3>Skills</h3>
+            <div class="skill-set">
+              <div class="skill">
+                <span>HTML</span>
+                <div class="progress-bar"><div style="width: 90%"></div></div>
+              </div>
+              <div class="skill">
+                <span>CSS</span>
+                <div class="progress-bar"><div style="width: 80%"></div></div>
+              </div>
+              <div class="skill">
+                <span>JavaScript</span>
+                <div class="progress-bar"><div style="width: 70%"></div></div>
+              </div>
+              <div class="skill">
+                <span>React</span>
+                <div class="progress-bar"><div style="width: 70%"></div></div>
+              </div>
+              <div class="skill">
+                <span>PHP</span>
+                <div class="progress-bar"><div style="width: 70%"></div></div>
+              </div>
+              <div class="skill">
+                <span>SQL</span>
+                <div class="progress-bar"><div style="width: 75%"></div></div>
+              </div>
+              <div class="skill">
+                <span>MySQL</span>
+                <div class="progress-bar"><div style="width: 75%"></div></div>
+              </div>
+              <div class="skill">
+                <span>MongoDB</span>
+                <div class="progress-bar"><div style="width: 65%"></div></div>
+              </div>
+              <div class="skill">
+                <span>Node.js</span>
+                <div class="progress-bar"><div style="width: 65%"></div></div>
+              </div>
+              <div class="skill">
+                <span>Express.js</span>
+                <div class="progress-bar"><div style="width: 65%"></div></div>
+              </div>
+              <div class="skill">
+                <span>Git & GitHub</span>
+                <div class="progress-bar"><div style="width: 80%"></div></div>
+              </div>
+              <div class="skill">
+                <span>RESTful APIs</span>
+                <div class="progress-bar"><div style="width: 70%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="#contact" class="btn contact-btn">Let's Connect</a>
+      </section>
+
+      <section id="skills-exp" class="card skills-experience">
+        <h2>Skills & Experience</h2>
+        <h3>Technical Skills</h3>
+        <div class="skills-section">
+          <!-- Mobile -->
+          <div class="skill-group">
+            <button class="collapsible">
+              Mobile Development<i class="fa-solid fa-angle-up"></i>
+            </button>
+            <div class="content">
+              <ul class="skill-list">
+                <li>
+                  <i class="fab fa-android"></i> Android Development (Java)
+                </li>
+                <li>
+                  <i class="fas fa-mobile-alt"></i> Mobile App UI/UX Design
+                </li>
+                <li><i class="fas fa-sync-alt"></i> App Life Cycle</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Tools -->
+          <div class="skill-group">
+            <button class="collapsible">
+              Tools & Technologies<i class="fa-solid fa-angle-up"></i>
+            </button>
+            <div class="content">
+              <ul class="skill-list">
+                <li><i class="fas fa-cog"></i> WAMP Server</li>
+                <li><i class="fas fa-database"></i> phpMyAdmin</li>
+                <li><i class="fas fa-paper-plane"></i> Postman</li>
+                <li><i class="fab fa-android"></i> Android Studio</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Database -->
+          <div class="skill-group">
+            <button class="collapsible">
+              Database Management<i class="fa-solid fa-angle-up"></i>
+            </button>
+            <div class="content">
+              <ul class="skill-list">
+                <li><i class="fas fa-database"></i> SQL</li>
+                <li><i class="fas fa-database"></i> MySQL</li>
+                <li><i class="fas fa-database"></i> MongoDB</li>
+                <li><i class="fas fa-pencil-alt"></i> CRUD Operations</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Version Control -->
+          <div class="skill-group">
+            <button class="collapsible">
+              Version Control<i class="fa-solid fa-angle-up"></i>
+            </button>
+            <div class="content">
+              <ul class="skill-list">
+                <li><i class="fab fa-git-alt"></i> Git</li>
+                <li><i class="fab fa-github"></i> GitHub</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Web Dev -->
+          <div class="skill-group">
+            <button class="collapsible">
+              Web Development<i class="fa-solid fa-angle-up"></i>
+            </button>
+            <div class="content">
+              <ul class="skill-list">
+                <li><i class="fas fa-laptop-code"></i> Responsive Design</li>
+                <li><i class="fas fa-code"></i> Front End Development</li>
+                <li><i class="fas fa-server"></i> Back End Programming</li>
+                <li><i class="fas fa-paint-brush"></i> Web Design</li>
+                <li><i class="fas fa-globe"></i> Web Applications</li>
+                <li><i class="fas fa-plug"></i> RESTful API Development</li>
+                <li><i class="fas fa-cogs"></i> Developing APIs</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Machine Learning -->
+          <div class="skill-group">
+            <button class="collapsible">
+              Machine Learning<i class="fa-solid fa-angle-up"></i>
+            </button>
+            <div class="content">
+              <ul class="skill-list">
+                <li><i class="fas fa-cogs"></i> Data Preprocessing</li>
+                <li><i class="fas fa-play-circle"></i> Model Training</li>
+                <li><i class="fas fa-font"></i> Text Vectorization</li>
+                <li><i class="fas fa-chart-bar"></i> Model Evaluation</li>
+                <li>
+                  <i class="fas fa-balance-scale"></i> Class Imbalance Handling
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Frameworks and Libraries -->
+          <div class="skill-group">
+            <button class="collapsible">
+              Frameworks and Libraries<i class="fa-solid fa-angle-up"></i>
+            </button>
+            <div class="content">
+              <ul class="skill-list">
+                <li><i class="fab fa-react"></i> React</li>
+                <li><i class="fab fa-node-js"></i> Node.js</li>
+                <li><i class="fas fa-server"></i> Express.js</li>
+                <li><i class="fas fa-code-branch"></i> Pandas</li>
+                <li><i class="fas fa-code-branch"></i> NumPy</li>
+                <li><i class="fas fa-robot"></i> Scikit-learn</li>
+                <li><i class="fas fa-brain"></i> TensorFlow</li>
+                <li><i class="fas fa-chart-line"></i> Matplotlib</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Software -->
+          <div class="skill-group">
+            <button class="collapsible">
+              Software Proficiency<i class="fa-solid fa-angle-up"></i>
+            </button>
+            <div class="content">
+              <ul class="skill-list">
+                <li><i class="fas fa-file-word"></i> Microsoft Word</li>
+                <li><i class="fas fa-file-excel"></i> Microsoft Excel</li>
+                <li>
+                  <i class="fas fa-file-powerpoint"></i> Microsoft PowerPoint
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="experience-section">
+          <h3>Experience Timeline</h3>
+          <div class="experience-timeline">
+            <!-- University -->
+            <div class="timeline-item left">
+              <div class="timeline-icon">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <div class="timeline-content">
+                <h4>Lebanese American University</h4>
+                <span class="timeline-date">2021 - May 2025</span>
+                <p><strong>BS in Computer Science</strong></p>
+                <ul>
+                  <li>CGPA: 3.57 / 4.0</li>
+                  <li>Graduated with Distinction</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- IDS -->
+            <div class="timeline-item right">
+              <div class="timeline-icon">
+                <i class="fas fa-laptop"></i>
+              </div>
+              <div class="timeline-content">
+                <h4>IDS</h4>
+                <span class="timeline-date">July 2024 - August 2024</span>
+                <p><strong>Full-Stack Web Developer</strong></p>
+                <ul>
+                  <li>
+                    Built "Activity Club Website" using PHP and MySQL with user
+                    authentication.
+                  </li>
+                  <li>Used AdminLTE for responsive UI and better UX.</li>
+                  <li>
+                    Designed the database and created CRUD operations for all
+                    entities.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Areeba -->
+            <div class="timeline-item left">
+              <div class="timeline-icon">
+                <i class="fas fa-laptop-code"></i>
+              </div>
+              <div class="timeline-content">
+                <h4>Areeba</h4>
+                <span class="timeline-date">June 2024 - July 2024</span>
+                <p><strong>Full-Stack Web Developer</strong></p>
+                <ul>
+                  <li>
+                    Developed the "Robot Friends" web app using JavaScript,
+                    Node.js, and React.
+                  </li>
+                  <li>
+                    Implemented real-time data fetching and smooth state
+                    management.
+                  </li>
+                  <li>
+                    Used MongoDB & Express.js for backend and database
+                    operations.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- CS Club -->
+            <div class="timeline-item right">
+              <div class="timeline-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="timeline-content">
+                <h4>LAU Computer Science Club</h4>
+                <span class="timeline-date">Jan 2024 - May 2025</span>
+                <ul>
+                  <li>Participated in CS Club Devathon and GDG DevFest.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- All Girls Code -->
+            <div class="timeline-item left">
+              <div class="timeline-icon">
+                <i class="fas fa-tools"></i>
+              </div>
+              <div class="timeline-content">
+                <h4>All Girls Code</h4>
+                <span class="timeline-date">2018 - 2021</span>
+                <ul>
+                  <li>Completed workshops in HTML, Python, and Java.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Soft Skills -->
+        <div class="soft-skills-section">
+          <h3>Soft Skills</h3>
+          <div style="max-width: 35rem; margin: auto">
+            <canvas id="softSkillsChart"></canvas>
+          </div>
+        </div>
+
+        <!-- CV Download -->
+        <div class="cv-download">
+          <a href="assets/Nour Jalloul CV.pdf" class="btn" download
+            >Download CV</a
+          >
+        </div>
+      </section>
+
+      <section id="projects">
+        <h2>Projects</h2>
+        <div class="project-container">
+          <div class="project">
+            <h3>ClairéJewels</h3>
+            <p class="description">
+              A full-stack e-commerce website for jewelry, built with HTML, CSS,
+              PHP, MySQL. It features user authentication, product management,
+              and a shopping cart. (Project from Web Dev Course)
+            </p>
+            <div class="project-links">
+              <a href="https://github.com/NJ015/final_web" target="_blank">
+                <img
+                  src="assets/claire.png"
+                  alt="Website's Homepage"
+                  title="Click to view project"
+                />
+              </a>
+            </div>
+          </div>
+          <div class="project">
+            <h3>Excel Assistant</h3>
+            <p class="description">
+              Built an AI-powered Excel assistant that processes user commands
+              in natural language to clean, analyze, and modify spreadsheet
+              data. (Project from DL Course)
+            </p>
+            <div class="project-links">
+              <a
+                href="https://drive.google.com/drive/folders/1GVKfQKKV6j4S3-q6thSCmxvUZe4o6qMR"
+                target="_blank"
+              >
+                <img
+                  src="assets/DL img.png"
+                  alt="Website's Calculation Page"
+                  title="Click to view project"
+                />
+              </a>
+            </div>
+          </div>
+          <div class="project">
+            <h3>File Sharing System</h3>
+            <p class="description">
+              Developed a multi-threaded client-server file transfer system in
+              Python, supporting uploads, downloads, and listing using TCP
+              sockets and custom protocol. (Project from Networks Course)
+            </p>
+            <div class="project-links">
+              <a
+                href="https://github.com/NJ015/CSC-430-Networks-Project"
+                target="_blank"
+              >
+                <img
+                  src="assets/networks.png"
+                  alt="System Interface"
+                  title="Click to view project"
+                />
+              </a>
+            </div>
+          </div>
+          <div class="project">
+            <h3>Club Managment Website</h3>
+            <p class="description">
+              Admin panel for managing club events, members, guides, and website
+              content with role-based controls and publishing features. (Project
+              from IDS Internship)
+            </p>
+            <div class="project-links">
+              <a
+                href="https://github.com/NJ015/My_IDS_Internship"
+                target="_blank"
+              >
+                <img
+                  src="assets/ids.png"
+                  alt="Website's Admin Homepage"
+                  title="Click to view project"
+                />
+              </a>
+            </div>
+          </div>
+          <!-- <div class="project">
+            <h3>Robot Friends</h3>
+            <p class="description">...</p>
+            <div class="project-links">
+              <a href="https://github.com/NJ015/My_Internship" target="_blank">
+                <img
+                  src="../default.png"
+                  alt="Website's Homepage"
+                  title="Click to view project"
+                />
+              </a>
+            </div>
+          </div> -->
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="contact">
+          <h2>Contact Me</h2>
+          <div class="contact-info">
+            <div class="social-links">
+              <a href="mailto:nourj2005@gmail.com" rel="noopener noreferrer"
+                ><i class="fa-solid fa-envelope"></i
+              ></a>
+              <a
+                href="https://github.com/NJ015"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fab fa-github"></i>
+              </a>
+              <a
+                href="https://linkedin.com/in/nour-jalloul"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fab fa-linkedin"></i>
+              </a>
+            </div>
+
+            <form
+              action="https://formsubmit.co/nourj2005@gmail.com"
+              method="POST"
+              class="contact-form"
+            >
+              <!-- The subject line -->
+              <input
+                type="hidden"
+                name="_subject"
+                value="New message from your portfolio!"
+              />
+              <!-- To prevent spam -->
+              <input type="hidden" name="_captcha" value="true" />
+
+              <!-- Optional: Redirect after submission  -->
+              <input
+                type="hidden"
+                name="_next"
+                value="http://127.0.0.1/RDC/Projec%20--2--/thanks.html"
+              />
+
+              <input type="text" name="name" placeholder="Your Name" />
+              <input type="email" name="email" placeholder="Your Email" />
+              <textarea
+                name="message"
+                rows="5"
+                placeholder="Your Message"
+              ></textarea>
+              <button type="submit">Send</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <p>&copy; 2025 Nour Jalloul. All rights reserved.</p>
+        <!-- <div class="footer-links"></div> -->
+      </footer>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>

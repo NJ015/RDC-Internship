@@ -1,0 +1,17 @@
+Summary of chellenges:
+
+I wanted to make some animations appear when the items come into view instead of animating just on refresh,
+for that i used an observer to check when the item comes into view and then add the animation.
+
+When I was working on the contact form, the major issue I ran into was the form not validating properly.
+I had written some JS to check the inputs, and I was displaying error messages if the user left fields empty or entered invalid data.
+But even when the form clearly had issues, it would still go ahead and submit, completely ignoring my validation.
+After digging around a bit, I realized that the way I was showing the error messages—by inserting them using `"beforestart"`—wasn’t the right choice.
+Changing that to `"afterend"` finally allowed the messages to display correctly, and the form submission was successfully blocked when needed.
+
+Once the validation was working, I faced another problem which was the form submiting and redirecting as expected, but I wasn’t receiving any emails.
+At first, I was using a FormSubmit alias link (`formsubmit.co/el/hejula`) that I was given for my email but maybe it wasn't configured fully or such.
+That turned out to be the reason the emails weren’t being sent at all.
+Switching the action to my actual email (`https://formsubmit.co/nourj2005@gmail.com`) solved that problem. After that, everything worked like it was supposed to.
+
+Overall, the contact form ended up taking more time than I thought, but it was helpful as I learned to use an external form service, FormSubmit.
