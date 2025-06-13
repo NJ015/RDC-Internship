@@ -10,7 +10,7 @@
 
 
 .main-content {
-  min-height: 80vh;
+  min-height: unset;
 }
 .notes-list {
   max-height: 80vh;
@@ -157,6 +157,10 @@ input {
     display: flex;
     flex-direction: column;
   }
+  .main-content {
+    gap: 1rem;
+    padding: 0.5rem;
+  }
   .notes-list {
     max-height: none;
     overflow-y: visible;
@@ -292,5 +296,6 @@ body * {
   /* Remove any top margin from printArea if present */
   #printArea {
     margin-top: 0 !important;
+    padding: 10rem;
   }
 }

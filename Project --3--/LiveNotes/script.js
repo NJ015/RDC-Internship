@@ -88,6 +88,7 @@ $(function () {
                                     </div>`;
                     });
                 }
+                reinitTooltips()
                 $(".notes-list").html(notesHtml);
                 reinitTooltips();
             },
@@ -154,6 +155,9 @@ $(function () {
             success: function (response) {
                 if (response.success) {
                     loadNotes();
+                    $("#noteForm")[0].reset();
+                    $("#noteId").val("");
+                    $("#noteForm").find('button[type="submit"]').text("Add Note");
                     showToast("Note deleted successfully.", "success");
                 } else {
                     showToast("Error deleting note.", "error");
@@ -221,7 +225,7 @@ $(function () {
         $("#content").val(content);
         $("#noteId").val(noteId);
         $('#notePinned').val(pinned);
-        console.log(`sent the pin ${pinned} to notePinned: ${$('#notePinned').val()}`)
+        updatePinButton(!pinned)
         $("#noteForm").find('button[type="submit"]').text("Update Note");
     });
 
@@ -264,8 +268,19 @@ $(function () {
         $('body').attr('data-bs-theme', function (i, val) {
             return val === 'dark' ? 'light' : 'dark';
         });
-        // $("body").toggleClass("dark-mode");
+
         $(this).find("i").toggleClass("fa-sun fa-moon");
+
+        const isDark = $('body').attr('data-bs-theme') === 'dark';
+        const newTitle = isDark ? 'Light mode' : 'Dark mode';
+        $(this).attr('title', newTitle);
+
+        // Update tooltip content (Bootstrap 5.2+)
+        const tooltipInstance = bootstrap.Tooltip.getInstance(this);
+        if (tooltipInstance) {
+            tooltipInstance.setContent({ '.tooltip-inner': newTitle });
+        }
+
         $('.btn').each(function () {
             const $btn = $(this);
             // List of Bootstrap color classes
@@ -341,18 +356,20 @@ $(function () {
 
     function updatePinButton(pinned) {
         const $btn = $("#formPinBtn");
+        $btn.removeClass("btn-info btn-secondary btn-outline-info btn-outline-secondary");
         if (pinned == 1) {
             if ($('body').attr('data-bs-theme') == 'dark') {
-                $btn.addClass("btn-outline-info").removeClass("btn-outline-secondary");
+                $btn.addClass("btn-outline-info");
+            } else {
+                $btn.addClass("btn-info");
             }
-            else
-                $btn.addClass("btn-info").removeClass("btn-secondary");
             $btn.attr("title", "Unpin");
         } else {
-            if ($('body').attr('data-bs-theme') == 'dark')
-                $btn.addClass("btn-outline-secondary").removeClass("btn-outline-info");
-            else
-                $btn.addClass("btn-secondary").removeClass("btn-info");
+            if ($('body').attr('data-bs-theme') == 'dark') {
+                $btn.addClass("btn-outline-secondary");
+            } else {
+                $btn.addClass("btn-secondary");
+            }
             $btn.attr("title", "Pin");
         }
     }
@@ -409,12 +426,12 @@ $(function () {
         // <div class="row main-content h-100">
         // <div class="col-12 d-flex flex-wrap justify-content-center align-content-center">
         $("#printArea").html(`
-                                <div class="card note">
+                                <!-- <div class="card note"> -->
                                     <h4 class="card-title">${title}</h4>
                                     <div class="card-body">
                                         <p class="card-text">${content}</p> 
                                         </p>
-                                        <div class="note-actions">
+                                        <!-- <div class="note-actions">
                                             <button class="btn btn-primary edit">
                                                 <i class="fas fa-pen"></i>
                                             </button>
@@ -427,9 +444,9 @@ $(function () {
                                             <button class="btn btn-warning share-note">
                                                 <i class="fa-solid fa-share"></i>
                                             </button>
-                                        </div>
+                                        </div> -->
                                     </div>
-                                </div>
+                                <!-- </div> -->
                             
                             `);
 
