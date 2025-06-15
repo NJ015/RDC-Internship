@@ -8,6 +8,10 @@
   flex: 1 1 auto;
 }
 
+.dropdown-item{
+  cursor: pointer;
+}
+
 
 .main-content {
   min-height: unset;

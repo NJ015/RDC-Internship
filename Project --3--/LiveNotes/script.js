@@ -1,6 +1,7 @@
 $(function () {
 
     let currentSort = "created_desc"; // used to keep track of sort when reloading notes
+    let currentSearch = '';
 
     // Helper to escape HTML (to prevent XSS)
     function escapeHtml(text) {
@@ -57,7 +58,6 @@ $(function () {
                             `;
                     });
                 }
-                reinitTooltips()
                 $(".notes-list").html(notesHtml);
                 reinitTooltips();
             },
@@ -109,7 +109,7 @@ $(function () {
             dataType: "json",
             success: function (response) {
                 if (response.success) {
-                    loadNotes();
+                    loadNotes(currentSearch, currentSort);
                     // comment if u want to keep the form data after submission
                     $("#noteForm")[0].reset();
                     $("#noteId").val("");
@@ -127,64 +127,67 @@ $(function () {
     });
 
 
+    let deleteId = null;
+    let deleteModal = false;
+
     // delete note from note-list
     $(".notes-list").on("click", ".btn-danger", function (e) {
         e.preventDefault();
-        if (!confirm("Are you sure you want to delete this note?")) return;
         const noteCard = $(this).closest(".note");
-        const noteId = noteCard.data("id");
-        $.ajax({
-            url: "notes.php",
-            type: "POST",
-            data: { id: noteId },
-            dataType: "json",
-            success: function (response) {
-                if (response.success) {
-                    $("#noteForm")[0].reset();
-                    $("#noteId").val("");
-                    $("#noteForm").find('button[type="submit"]').text("Add Note");
-
-                    $(`.note[data-id="${noteId}"]`).remove();
-
-                    showToast("Note deleted successfully.", "success");
-                } else {
-                    showToast("Error deleting note.", "error");
-                }
-            },
-            error: function (xhr, status, error) {
-                showToast("Error while deleting. Please try again.", "error");
-            }
-        });
+        deleteId = noteCard.data("id");
+        deleteModal = false;
+        const modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+        modal.show();
     });
 
     // Delete note from form
     $("#noteForm").on("click", ".delete-note", function (e) {
         e.preventDefault();
-        const noteId = $("#noteId").val();
-        if (!noteId) return;
-        if (!confirm("Delete this note?")) return;
+        deleteId = $("#noteId").val();
+        if (!deleteId) return;
+        deleteModal = true;
+        const modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+        modal.show();
+
+    });
+
+    // Handle modal confirm button
+    $("#confirmDeleteBtn").on("click", function () {
+        console.log("Deleting note with id:", deleteId);
+        if (!deleteId) return;
         $.ajax({
             url: "notes.php",
             type: "POST",
-            data: { id: noteId },
+            data: { id: deleteId },
             dataType: "json",
             success: function (response) {
                 if (response.success) {
-                    $("#noteForm")[0].reset();
-                    $("#noteId").val("");
-                    $("#noteForm").find('button[type="submit"]').text("Add Note");
+                    console.log("Deleting note with id:", deleteId);
 
-                    // remove THE card
-
-
+                    if (deleteModal) {
+                        $("#noteForm")[0].reset();
+                        $("#noteId").val("");
+                        $("#noteForm").find('button[type=\"submit\"]').text("Add Note");
+                    }
+                    console.log("Deleting note with id:", deleteId);
+                    $(`.note[data-id="${deleteId}"]`).remove();
                     showToast("Note deleted successfully.", "success");
                 } else {
                     showToast("Error deleting note.", "error");
                 }
-            },
 
+                deleteId = null;
+                deleteModal = false;
+                const modal = bootstrap.Modal.getInstance(document.getElementById('confirmDeleteModal'));
+                modal.hide();
+            },
             error: function (xhr, status, error) {
                 showToast("Error while deleting. Please try again.", "error");
+
+                deleteId = null;
+                deleteModal = false;
+                const modal = bootstrap.Modal.getInstance(document.getElementById('confirmDeleteModal'));
+                modal.hide();
             }
         });
     });
@@ -198,41 +201,29 @@ $(function () {
         $("#noteForm").find('button[type="submit"]').text("Add Note");
     });
 
-    // check whether its better to have the checking ///////////////////////
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
-    // done from the existing cards rather than from db side
     // Live search as you type
     $(".search-bar").on("input", function () {
-        const searchQuery = $("#searchQuery").val();
-        loadNotes(searchQuery);
+        currentSearch = $("#searchQuery").val();
+        loadNotes(currentSearch, currentSort);
     });
 
     // Prevent form submit from reloading the page
     $(".search-bar").on("submit", function (e) {
         e.preventDefault();
-        const searchQuery = $("#searchQuery").val();
-        loadNotes(searchQuery);
+        currentSearch = $("#searchQuery").val();
+        loadNotes(currentSearch, currentSort);
     });
 
     // Reset to default sort
     $(".sort").on("click", ".sort-reset", function () {
-        loadNotes($("#searchQuery").val(), "created_desc");
+        currentSort = "created_desc";
+        loadNotes($("#searchQuery").val(), currentSort);
     });
 
     // Sort by selected option
     $(".sort").on("click", ".sort-option", function () {
-        const sort = $(this).data("sort");
-        loadNotes($("#searchQuery").val(), sort);
+        currentSort = $(this).data("sort");
+        loadNotes($("#searchQuery").val(), currentSort);
     });
 
     // Dark mode toggle
@@ -280,7 +271,7 @@ $(function () {
             dataType: "json",
             success: function (response) {
                 if (response.success) {
-                    loadNotes($("#searchQuery").val());
+                    loadNotes(currentSearch, currentSort);
                     if (pinState == 0)
                         showToast("Note unpinned successfully.", "success");
                     else
@@ -314,7 +305,7 @@ $(function () {
                 if (response.success) {
                     $("#notePinned").val(pinState);
                     updatePinButton(pinState);
-                    loadNotes($("#searchQuery").val());
+                    loadNotes(currentSearch, currentSort);
                 } else {
                     showToast("Error pinning note.", "error");
                 }
@@ -449,5 +440,6 @@ $(function () {
         const toast = new bootstrap.Toast($toast[0], { delay: 3000 });
         toast.show();
     }
+
 
 });
