@@ -1,50 +1,31 @@
 $(function () {
-    //fetch all notes
-    // function loadNotes() {
-    //     $.ajax({
-    //         url: 'notes.php',
-    //         type: 'GET',
-    //         dataType: 'json',
-    //         success: function (notes) {
-    //             let notesHtml = '';
-    //             if (notes.length == 0) {
-    //                 notesHtml = '<div class="alert alert-info w-100">No notes found.</div>';
-    //             }
-    //             else {
-    //                 // only replaces the first <br>
-    //                 notes.forEach(function (note) {
-    //                     notesHtml += `<div class="card note" data-id="${note.id}">
-    //                                     <h4 class="card-title">${note.title}</h4>
-    //                                     <div class="card-body">
-    //                                     <p class="card-text">${note.content.replace('\n', '<br>')}</p>
-    //                                     </p>
-    //                                     <div class="note-actions">
-    //                                         <button class="btn btn-primary edit">
-    //                                         <i class="fas fa-pen"></i>
-    //                                         </button>
-    //                                         <button class="btn btn-danger">
-    //                                         <i class="fas fa-trash-can"></i>
-    //                                         </button>
-    //                                         <button class="btn btn-secondary">
-    //                                         <i class="fas fa-thumbtack"></i>
-    //                                         </button>
-    //                                         <button class="btn btn-warning">
-    //                                         <i class="fa-solid fa-share"></i>
-    //                                         </button>
-    //                                     </div>
-    //                                     </div>
-    //                                 </div>`;
 
-    //                 });
-    //             }
-    //             $('.notes-list').html(notesHtml);
-    //         },
-    //         error: function () {
-    //             $('.message').html('<div class="alert alert-danger">Error loading notes.</div>');
-    //         }
-    //     })
-    // }
-    // function was altered to handle search functionality
+    let currentSort = "created_desc"; // used to keep track of sort when reloading notes
+
+    // Helper to escape HTML (to prevent XSS)
+    function escapeHtml(text) {
+        return text.replace(/[&<>"']/g, function (m) {
+            return ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[m];
+        });
+    }
+
+    // used in noteForm because content is inserted 
+    // as input value not as html so it needs not be escaped
+    function unescapeHtml(text) {
+        return text
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">")
+            .replace(/&amp;/g, "&")
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, "'");
+    }
+
     function loadNotes(query = "", sort = "created_desc") {
         $.ajax({
             url: "notes.php",
@@ -61,31 +42,19 @@ $(function () {
                     notes.forEach(function (note) {
                         // if pinned, add pinned class
                         let pinnedClass = note.pinned == 1 ? "pinned" : "";
-                        notesHtml += `<div class="card note ${pinnedClass}" data-id="${note.id}" data-pinned="${note.pinned}">
-                                        <h4 class="card-title">${note.title
-                            }</h4>
-                                        <div class="card-body">
-                                        <p class="card-text">${note.content.replace(
-                                /\n/g,
-                                "<br>"
-                            )}</p> 
-                                        </p>
-                                        <div class="note-actions">
-                                            <!--<button class="btn btn-primary edit">
-                                            <i class="fas fa-pen"></i>
-                                            </button>-->
-                                            <button class="btn btn-secondary pin-note" title="Pin" data-bs-toggle="tooltip">
-                                            <i class="fas fa-thumbtack"></i>
-                                            </button>
-                                            <button class="btn btn-warning share-note" title="Share" data-bs-toggle="tooltip">
-                                            <i class="fa-solid fa-share"></i>
-                                            </button>
-                                            <button class="btn btn-danger delete-note" title="Delete" data-bs-toggle="tooltip">
-                                            <i class="fas fa-trash-can"></i>
-                                            </button>
-                                        </div>
-                                        </div>
-                                    </div>`;
+                        notesHtml += `
+                            <div class="card note ${pinnedClass}" data-id="${note.id}" data-pinned="${note.pinned}">
+                                <h4 class="card-title">${escapeHtml(note.title)}</h4>
+                                <div class="card-body">
+                                    <p class="card-text">${escapeHtml(note.content).replace(/\n/g, "<br>")}</p>
+                                    <div class="note-actions">
+                                        <button class="btn btn-secondary pin-note" title="Pin/Unpin" data-bs-toggle="tooltip"><i class="fas fa-thumbtack"></i></button>
+                                        <button class="btn btn-warning share-note" title="Share" data-bs-toggle="tooltip"><i class="fas fa-share"></i></button>
+                                        <button class="btn btn-danger delete-note" title="Delete" data-bs-toggle="tooltip"><i class="fas fa-trash-can"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
                     });
                 }
                 reinitTooltips()
@@ -100,6 +69,19 @@ $(function () {
 
     loadNotes();
 
+    $(".notes-list").on("click", '.note', function () {
+        const noteId = $(this).data("id");
+        const title = unescapeHtml($(this).find(".card-title").html());
+        const content = unescapeHtml($(this).find(".card-text").html().replace(/<br\s*\/?>/gi, "\n"));
+        const pinned = $(this).data('pinned');
+        $("#title").val(title);
+        $("#content").val(content);
+        $("#noteId").val(noteId);
+        $('#notePinned').val(pinned);
+        updatePinButton(!pinned)
+        $("#noteForm").find('button[type="submit"]').text("Update Note");
+    });
+
     // Add or Update note
     $("#noteForm").on("submit", function (e) {
         e.preventDefault();
@@ -107,8 +89,13 @@ $(function () {
         const content = $("#content").val();
         const noteId = $("#noteId").val();
 
-        if (!title || !content) {
-            showToast("Missing form fields.", "error")
+        if (!title.trim() || !content.trim()) {
+            showToast("Title and content cannot be empty or just spaces.", "error");
+            return;
+        }
+
+        if (title.length > 100) {
+            showToast("Title is too long (max 100 characters).", "error");
             return;
         }
 
@@ -127,12 +114,10 @@ $(function () {
                     $("#noteForm")[0].reset();
                     $("#noteId").val("");
                     $("#noteForm").find('button[type="submit"]').text("Add Note");
-
                     showToast("Note saved successfully.", "success");
 
-
                 } else {
-                    showToast("Error pinning note.", "error");
+                    showToast("Error saving note.", "error");
                 }
             },
             error: function (xhr, status, error) {
@@ -140,6 +125,7 @@ $(function () {
             }
         });
     });
+
 
     // delete note from note-list
     $(".notes-list").on("click", ".btn-danger", function (e) {
@@ -154,10 +140,12 @@ $(function () {
             dataType: "json",
             success: function (response) {
                 if (response.success) {
-                    loadNotes();
                     $("#noteForm")[0].reset();
                     $("#noteId").val("");
                     $("#noteForm").find('button[type="submit"]').text("Add Note");
+
+                    $(`.note[data-id="${noteId}"]`).remove();
+
                     showToast("Note deleted successfully.", "success");
                 } else {
                     showToast("Error deleting note.", "error");
@@ -182,10 +170,13 @@ $(function () {
             dataType: "json",
             success: function (response) {
                 if (response.success) {
-                    loadNotes();
                     $("#noteForm")[0].reset();
                     $("#noteId").val("");
                     $("#noteForm").find('button[type="submit"]').text("Add Note");
+
+                    // remove THE card
+
+
                     showToast("Note deleted successfully.", "success");
                 } else {
                     showToast("Error deleting note.", "error");
@@ -198,36 +189,6 @@ $(function () {
         });
     });
 
-    // Edit btn lisntener
-    // $(".notes-list").on("click", ".edit", function () {
-    //     const noteCard = $(this).closest(".note");
-    //     const noteId = noteCard.data("id");
-    //     const title = noteCard.find(".card-title").text();
-    //     const content = noteCard
-    //         .find(".card-text")
-    //         .html()
-    //         .replace(/<br\s*\/?>/gi, "\n");
-    //     $("#title").val(title);
-    //     $("#content").val(content);
-    //     $("#noteId").val(noteId);
-    //     $("#noteForm").find('button[type="submit"]').text("Update Note");
-    // });
-
-    $(".notes-list").on("click", '.note', function () {
-        const noteId = $(this).data("id");
-        const title = $(this).find(".card-title").text();
-        const content = $(this)
-            .find(".card-text")
-            .html()
-            .replace(/<br\s*\/?>/gi, "\n");
-        const pinned = $(this).data('pinned');
-        $("#title").val(title);
-        $("#content").val(content);
-        $("#noteId").val(noteId);
-        $('#notePinned').val(pinned);
-        updatePinButton(!pinned)
-        $("#noteForm").find('button[type="submit"]').text("Update Note");
-    });
 
     // Clear form
     $("#noteForm").on("click", ".clear-note", function () {
@@ -237,7 +198,18 @@ $(function () {
         $("#noteForm").find('button[type="submit"]').text("Add Note");
     });
 
-    // check whether its better to have the checking
+    // check whether its better to have the checking ///////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
     // done from the existing cards rather than from db side
     // Live search as you type
     $(".search-bar").on("input", function () {
