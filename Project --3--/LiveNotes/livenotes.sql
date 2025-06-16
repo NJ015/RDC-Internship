@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 11, 2025 at 10:42 AM
+-- Generation Time: Jun 16, 2025 at 06:17 AM
 -- Server version: 8.2.0
 -- PHP Version: 8.2.13
 
@@ -36,26 +36,32 @@ CREATE TABLE IF NOT EXISTS `notes` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `pinned` tinyint(1) DEFAULT '0' COMMENT '0 = not pinned\r\n1 = pinned',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `notes`
 --
 
 INSERT INTO `notes` (`id`, `title`, `content`, `created_at`, `updated_at`, `pinned`) VALUES
-(1, 'Welcome to Live Notes', 'This is your first note! You can edit or delete it.', '2025-06-10 11:36:14', '2025-06-10 11:36:14', 0),
-(2, 'Shopping List', 'Milk\nEggs\nBread\nButter', '2025-06-10 11:36:14', '2025-06-10 11:36:14', 0),
-(3, 'Project Ideas', '1. Build a notes app\r\n2. Learn PHP & AJAX\r\n3. Try a new CSS framework\r\n1. Build a notes app\r\n2. Learn PHP & AJAX\r\n3. Try a new CSS framework\r\n1. Build a notes app\r\n2. Learn PHP & AJAX\r\n3. Try a new CSS framework', '2025-06-10 11:36:14', '2025-06-10 12:15:50', 0),
-(4, 'Meeting Notes', 'Discussed project milestones and deadlines. Next meeting: Friday.', '2025-06-10 11:36:14', '2025-06-10 11:36:14', 0),
-(5, 'Quote', '“The secret of getting ahead is getting started.” – Mark Twain', '2025-06-10 11:36:14', '2025-06-10 11:36:14', 0),
-(6, 'test 2', '1 2 3 5 6', '2025-06-10 12:27:48', '2025-06-11 07:10:46', 0),
-(10, 'test 4', 'd\nd\nd\nd\ndl\nd\nd\nd\n\nd\nd\n\nd\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ndddddddddddddddddddddd', '2025-06-11 07:18:37', '2025-06-11 08:56:57', 0),
-(17, 'b', 'defd', '2025-06-11 09:13:22', '2025-06-11 09:13:22', 0),
-(12, 'L', 'k\n', '2025-06-11 07:47:07', '2025-06-11 07:47:07', 0),
-(13, 'A', 'ddd', '2025-06-11 07:56:43', '2025-06-11 07:56:43', 0),
-(14, 'D', 'dd', '2025-06-11 07:56:56', '2025-06-11 07:56:56', 0),
-(18, 'B', 'ds', '2025-06-11 09:16:51', '2025-06-11 09:16:51', 0),
-(19, 'jk', 'mn', '2025-06-11 10:39:28', '2025-06-11 10:39:28', 0);
+(1, 'Welcome to Live Notes', 'This is your first note! You can edit or delete it.', '2025-06-10 11:36:14', '2025-06-13 08:40:17', 0),
+(2, 'Shopping List', 'Milk\nEggs\nBread\nButter', '2025-06-10 11:36:14', '2025-06-13 08:40:24', 0),
+(3, 'Project Ideas', '1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework\n\n1. Build a notes app\n\n2. Learn PHP &amp; AJAX\n\n3. Try a new CSS framework', '2025-06-10 11:36:14', '2025-06-13 11:13:51', 0),
+(4, 'Meeting Notes', 'Discussed project milestones and deadlines. Next meeting: Friday.', '2025-06-10 11:36:14', '2025-06-13 08:40:27', 0),
+(5, 'Quote', '“The secret of getting ahead is getting started.” – Mark Twain', '2025-06-10 11:36:14', '2025-06-13 08:40:27', 0),
+(26, 'test', 'test', '2025-06-13 11:51:09', '2025-06-16 04:54:12', 0),
+(62, 'Travel Plans', 'Visit Istanbul in September. Budget: $1000.', '2025-06-16 05:13:52', '2025-06-16 05:13:52', 1),
+(61, 'Meeting Notes', 'Discussed the Q3 marketing strategy. Tasks assigned.', '2025-06-16 05:13:52', '2025-06-16 05:13:52', 0),
+(28, 'xxs', 'literally why i had to use escapeHTML\n\n<script>alert(\'Hacked!\');</script>', '2025-06-13 13:10:32', '2025-06-15 17:37:07', 0),
+(27, 'xxs 3', '<script>alert(\'Hacked!\')</script>', '2025-06-13 13:09:50', '2025-06-15 21:10:02', 0),
+(25, 'farahfinal', 'final final', '2025-06-13 11:48:45', '2025-06-13 11:48:50', 1),
+(60, 'Book Quotes', '“Not all those who wander are lost.” – Tolkien', '2025-06-16 05:13:52', '2025-06-16 05:13:52', 0),
+(58, 'Grocery List', 'Buy milk, eggs, bread, and coffee.', '2025-06-16 05:13:52', '2025-06-16 05:13:52', 0),
+(59, 'Project Ideas', '1. AI-based note app\n2. Smart fridge tracker\n3. Mood journal app', '2025-06-16 05:13:52', '2025-06-16 05:13:52', 1),
+(63, 'Fitness Goals', 'Run 3 times a week. Track progress in app.', '2025-06-16 05:13:52', '2025-06-16 05:13:52', 0),
+(64, 'Study Topics', 'Review chapters 3–5 for Networks exam.', '2025-06-16 05:13:52', '2025-06-16 05:13:52', 0),
+(65, 'To-Do Today', '1. Respond to emails\n2. Submit timesheet\n3. Call plumber', '2025-06-16 05:13:52', '2025-06-16 05:13:52', 1),
+(66, 'Gift Ideas', 'Personalized mug, book, wireless earbuds.', '2025-06-16 05:13:52', '2025-06-16 05:13:52', 0),
+(67, 'Random Thoughts', 'What if memories could be downloaded?', '2025-06-16 05:13:52', '2025-06-16 05:13:52', 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
