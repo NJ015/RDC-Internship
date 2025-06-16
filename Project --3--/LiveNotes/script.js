@@ -78,7 +78,7 @@ $(function () {
         $("#content").val(content);
         $("#noteId").val(noteId);
         $('#notePinned').val(pinned);
-        updatePinButton(!pinned)
+        updatePinButton(pinned)
         $("#noteForm").find('button[type="submit"]').text("Update Note");
     });
 
@@ -263,6 +263,7 @@ $(function () {
         const noteCard = $(this).closest(".note");
         const noteId = noteCard.data("id");
         const pinState = noteCard.hasClass("pinned") ? 0 : 1;
+        
 
         $.ajax({
             url: "notes.php",
@@ -272,6 +273,8 @@ $(function () {
             success: function (response) {
                 if (response.success) {
                     loadNotes(currentSearch, currentSort);
+                    $("#notePinned").val(pinState);
+                    updatePinButton(pinState);
                     if (pinState == 0)
                         showToast("Note unpinned successfully.", "success");
                     else
