@@ -1,0 +1,72 @@
+body {
+  font-size: 1.1rem;
+}
+
+@media (max-width: 960px) {
+  body {
+    font-size: 0.9rem;
+  }
+}
+
+#message {
+  z-index: 9999;
+}
+/* 
+
+.card .actions {
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  position: absolute;
+  top: 0; bottom: 0; right: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-right: 1rem;
+}
+
+
+.card.show-actions .actions {
+  transform: translateX(0);
+}
+
+
+.card {
+  position: relative;
+  overflow: hidden;
+} */
+
+
+
+
+
+.card {
+  position: relative;
+  overflow: hidden;
+}
+
+/* This is initially hidden off to the right */
+.card .actions {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -100%; /* hide off-screen */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.5rem;
+  transition: right 0.3s ease;
+  background: rgba(255,255,255,0.9);
+}
+
+/* When swiped, bring it in */
+.card.show-actions .actions {
+  right: 0;
+}
+
+/* Hide actions in non-mobile if desired */
+@media (min-width: 576px) {
+  .card .actions {
+    display: none !important;
+  }
+}
