@@ -94,6 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('desc').value = '';
         document.getElementById('dd').value = '';
 
+        const createdAtGroup = document.getElementById('createdAtGroup');
+        if (createdAtGroup) {
+            createdAtGroup.remove();
+        }
+        const createdAtLabel = document.getElementById('calabel');
+        if (createdAtLabel) createdAtLabel.remove();
+
         document.getElementById('addBtn').innerText = 'Add';
         document.querySelector('.modal-title').innerText = 'Add Task';
     });
@@ -216,69 +223,132 @@ function renderTask(task, listId) {
     // </div>
 
 
-    // const wrapper = document.createElement('div');
-
-
-
     // TODO: recheck responsivness
     const taskCard = document.createElement('div');
-    taskCard.className = 'card shadow-sm py-2 px-3';
-    taskCard.style.backgroundColor = getTaskColor(task);
-    taskCard.style.cursor = 'pointer';
+    taskCard.className = 'card shadow-sm task-swipe-wrapper';
 
-    taskCard.addEventListener('click', ()=>{
-        editId = task.id;
-        document.getElementById('name').value = task.name;
-        document.getElementById('desc').value = task.desc;
-        document.getElementById('dd').value = task.dd;
 
-        document.getElementById('addBtn').innerText = 'Update';
-        document.querySelector('.modal-title').innerText = 'Edit Task';
+    if (window.Hammer) {
+        const hammer = new Hammer(taskCard);
+        hammer.on('swipeleft', () => {
+            // taskCard.classList.add('show-actions');
+            content.style.transform = 'translateX(-150px)';
+            setTimeout(() => {
+                content.style.transform = 'translateX(0px)';
+            }, 1000);
+            setTimeout(() => {
+                completetask(task);
+            }, 300);
+        });
+        hammer.on('swiperight', () => {
+            // taskCard.classList.remove('show-actions');
+            content.style.transform = 'translateX(150px)';
+            setTimeout(() => {
+                content.style.transform = 'translateX(0px)';
+            }, 1000);
+            setTimeout(() => {
+                deleteTask(task);
+            }, 300);
+        });
+        hammer.on('tap', () => {
+            content.style.transform = 'translateX(0px)';
+        })
 
-        const editModel = new bootstrap.Modal(document.getElementById('addTask'));
-        editModel.show();
-    });
 
+    }
+
+
+    const bg = document.createElement('div');
+    bg.className = 'swipe-bg';
+
+    const left = document.createElement('div');
+    const right = document.createElement('div');
+
+    left.className = 'swipe-left';
+    right.className = 'swipe-right';
+
+    const ricon = document.createElement('i');
+    const licon = document.createElement('i');
+
+    ricon.className = 'fas fa-trash';
+    licon.className = 'fas fa-check';
+
+    left.appendChild(licon);
+    right.appendChild(ricon);
+
+    left.innerText = 'Delete';
+    right.innerText = 'Complete';
+
+    bg.appendChild(left);
+    bg.appendChild(right);
+
+
+
+
+    let description = task.desc ? task.desc.slice(0, 100) : 'No description';
+    if (task.desc.length > 100) description += ' ...';
 
     // TODO: make it more secure by using innertext instead of innerhtml
 
     const strike = task.status === 1 ? 'text-decoration-line-through' : '';
 
     const content = document.createElement('div');
-    content.className = `row flex-row align-items-center text-center ${strike}`;
+    content.className = `task-content row flex-row align-items-center px-3 py-2 text-center ${strike}`;
     content.innerHTML = `
-            <h5 class="col-1">${task.name}</h5>
-            <p class="mb-1 text-muted col-5 text-wrap ">${task.desc ? task.desc.slice(0, 150) + '...' : 'No description'}</p>
-            <p class="mb-0 text-muted col-4">Due: ${deadline}<br><small>Added: ${added}</small></p>
+            <h5 class="col-6 col-md-2 col-lg-1">${task.name}</h5>
+            <p class="mb-1 text-muted col-5 text-wrap d-none d-md-block">${description}</p>
+            <p class="mb-0 text-muted col-5 col-lg-4">${deadline}</p>
             `;
 
+
+
+    content.style.backgroundColor = getTaskColor(task);
+    content.style.cursor = 'pointer';
+
+    content.addEventListener('click', () => {
+        editId = task.id;
+        document.getElementById('name').value = task.name;
+        document.getElementById('desc').value = task.desc;
+        document.getElementById('dd').value = task.dd;
+
+        const createdAtLabel = document.createElement('label');
+        createdAtLabel.id = 'calabel'
+        createdAtLabel.textContent = 'Created at';
+        const createdAtGrp = document.createElement('div');
+        createdAtGrp.id = 'createdAtGroup';
+        createdAtGrp.className = 'input-group mb-3';
+        const createdAtIn = document.createElement('input');
+        createdAtIn.type = 'text'
+        createdAtIn.className = 'form-control';
+        createdAtIn.disabled = true;
+        createdAtIn.value = added;
+
+        createdAtGrp.appendChild(createdAtIn);
+
+        document.getElementById('addBtn').innerText = 'Update';
+        document.querySelector('.modal-title').innerText = 'Edit Task';
+
+        const modal = document.getElementById('addTask');
+        const modalBody = modal.querySelector('.modal-body .container-fluid');
+        modalBody.append(createdAtLabel, createdAtGrp);
+
+        const editModel = new bootstrap.Modal(modal);
+
+        editModel.show();
+    });
+
+
+
+
     const actionsDiv = document.createElement('div');
-    actionsDiv.className = 'd-none d-sm-flex flex-column gap-2 col-2';
+    actionsDiv.className = 'd-none d-lg-flex flex-column gap-2 col-2';
 
     const completebtn = document.createElement('button');
     completebtn.className = "btn btn-sm btn-outline-success"
     completebtn.innerHTML = '<i class="fas fa-check fa-lg"></i>'
     completebtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        editId = task.id;
-
-        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        tasks = tasks.map(t => {
-            if (t.id === editId) {
-                const s = t.status === 1;
-                return {
-                    ...t,
-                    status: s ? 0 : 1
-                };
-            }
-            return t;
-        });
-
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-        document.getElementById('taskList').innerHTML = '';
-        document.getElementById('todoList').innerHTML = '';
-        reloadTasks();
-
+        completetask(task);
     });
 
 
@@ -304,27 +374,15 @@ function renderTask(task, listId) {
     deletebtn.innerHTML = '<i class="fas fa-trash-can"></i>';
     deletebtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        deltask = task;
-        const modal = new bootstrap.Modal(document.getElementById('confirmDel'));
-        modal.show();
+        deleteTask(task);
     });
 
 
     actionsDiv.appendChild(completebtn)
-    // actionsDiv.appendChild(editbtn);
     actionsDiv.appendChild(deletebtn);
     content.appendChild(actionsDiv);
+    taskCard.appendChild(bg);
     taskCard.appendChild(content);
-
-    
-    // if (window.Hammer) {
-    //     const hammer = new Hammer(taskCard);
-    //     hammer.on('swipeleft', () => taskCard.classList.add('show-actions'));
-    //     hammer.on('swiperight', () => taskCard.classList.remove('show-actions'));
-    // }
-
-
-
     list.appendChild(taskCard);
 
 }
@@ -349,6 +407,7 @@ function loadTasks() {
     const list = document.getElementById('taskList');
     list.innerHTML = '';
     if (tasks.length === 0) {
+        console.log("no tasks");
         showEmptyMessage(list, 'No tasks to display.');
         return;
     }
@@ -381,7 +440,7 @@ function loadTODO() {
 // msg for empty/no saved tasks
 function showEmptyMessage(container, message) {
     const msg = document.createElement('div');
-    msg.className = 'text-center text-muted py-3 w-50 mt-3';
+    msg.className = 'text-center text-muted py-3 w-50 mt-4 align-self-center';
     msg.style.border = "3px dashed red";
 
     msg.innerText = message;
@@ -405,6 +464,14 @@ function sortTasks(type = 'deadline-asc') {
     const sorting = type;
 
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    if (tasks.length === 0) {
+        document.getElementById('taskList').innerHTML = '';
+        document.getElementById('todoList').innerHTML = '';
+        showEmptyMessage(document.getElementById('taskList'), 'No tasks to display.');
+        showEmptyMessage(document.getElementById('todoList'), 'No tasks to do.');
+        return;
+    }
 
     let sortedTasks = [...tasks];
     switch (sorting) {
@@ -462,3 +529,29 @@ function reloadTasks() {
     }
 }
 
+function deleteTask(task) {
+    deltask = task;
+    const modal = new bootstrap.Modal(document.getElementById('confirmDel'));
+    modal.show();
+}
+
+function completetask(task) {
+    editId = task.id;
+
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks = tasks.map(t => {
+        if (t.id === editId) {
+            const s = t.status === 1;
+            return {
+                ...t,
+                status: s ? 0 : 1
+            };
+        }
+        return t;
+    });
+
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    document.getElementById('taskList').innerHTML = '';
+    document.getElementById('todoList').innerHTML = '';
+    reloadTasks();
+}
