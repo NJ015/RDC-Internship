@@ -1,0 +1,56 @@
+.feedback {
+  width: 20%;
+  min-width: 200px;
+  height: 15rem;
+  min-height: 10rem;
+  overflow: hidden;
+  z-index: 0;
+  background: lightgray;
+  box-shadow: -1px 1px 8px 0px;
+  padding: 1rem;
+}
+
+#textf {
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+}
+
+.rating {
+  color: gold;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+
+.rating-input {
+  direction: rtl;
+  display: inline-flex;
+}
+
+.rating-input input {
+  display: none;
+}
+
+.rating-input label {
+  font-size: 2rem;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.rating-input input:checked ~ label,
+.rating-input label:hover,
+.rating-input label:hover ~ label {
+  color: gold;
+}
+
+.card,
+.form-label,
+.form-control,
+.btn {
+  font-size: 1.15rem !important;
+}
