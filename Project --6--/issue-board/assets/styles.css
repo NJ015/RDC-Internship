@@ -1,0 +1,13 @@
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  background-color: #e9f5ff;
+  border-color: #0d6efd;
+}
+
+.badge {
+  line-height: normal !important;
+}
+
+.assigneeXBtn {
+  transform: scale(0.6);
+}

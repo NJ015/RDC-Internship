@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Task List</title>
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar bg-light p-2">
+        <div class="container-fluid d-flex justify-content-between align-content-center">
+            <span class="flex-grow-1 fs-3 text-center position-absolute start-50 translate-middle-x">Issue Board</span>
+            <div class="ms-auto">
+
+                <!-- Login btn and dropdown -->
+                <div class="dropdown dropstart">
+                    <button id="loginbtn" type="button" class="btn btn-primary dropdown-toggle"
+                        data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                        Login <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    </button>
+                    <form class="dropdown-menu p-4" style="min-width: 280px;">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="email@example.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="pass" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="pass" placeholder="Password">
+                        </div>
+                        <!-- <div class="dropdown-divider"></div> -->
+                        <button type="submit" class="btn btn-primary ">Login</button>
+                    </form>
+                </div>
+
+                <!-- Logout btn -->
+                <button id="logoutbtn" class="btn btn-danger d-none">Logout <i
+                        class="fa-solid fa-arrow-right-from-bracket"></i></button>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Main -->
+    <div class="container-fluid p-3">
+
+        <!-- features row -->
+        <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap mb-2">
+
+            <!-- search bar -->
+            <div class="input-group w-25">
+                <input type="text" id="searchIn" class="form-control" placeholder="Search issues..."
+                    aria-label="Search">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+            </div>
+
+            <!-- filter toggle btn -->
+            <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#filterSection">
+                <i class="fas fa-filter"></i> Filters
+            </button>
+
+            <!-- filter options -->
+            <div id="filterSection" class="collapse mt-2">
+                <div class="card p-2 bg-light border border-primary">
+                    <div class="d-flex gap-2 flex-wrap">
+
+                        <!-- Status Filter -->
+                        <div class="dropdown">
+                            <button class="btn btn-outline-primary" data-bs-toggle="dropdown">
+                                <i class="fas fa-tasks"></i> Status
+                            </button>
+                            <div class="dropdown-menu p-3" style="min-width: 200px;">
+                                <h6 class="dropdown-header">Filter by Status</h6>
+                                <div class="form-check">
+                                    <input class="form-check-input filter-status" type="checkbox" value="To Do"
+                                        id="status-todo">
+                                    <label class="form-check-label" for="status-todo">To Do</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input filter-status" type="checkbox" value="In Progress"
+                                        id="status-inprogress">
+                                    <label class="form-check-label" for="status-inprogress">In Progress</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input filter-status" type="checkbox" value="In Review"
+                                        id="status-inreview">
+                                    <label class="form-check-label" for="status-inreview">In Review</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input filter-status" type="checkbox" value="Done"
+                                        id="status-done">
+                                    <label class="form-check-label" for="status-done">Done</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Priority Filter -->
+                        <div class="dropdown">
+                            <button class="btn btn-outline-primary" data-bs-toggle="dropdown">
+                                <i class="fas fa-flag"></i> Priority
+                            </button>
+                            <div class="dropdown-menu p-3" style="min-width: 200px;">
+                                <h6 class="dropdown-header">Filter by Priority</h6>
+                                <div class="form-check">
+                                    <input class="form-check-input filter-priority" type="checkbox" value="Low"
+                                        id="priority-low">
+                                    <label class="form-check-label" for="priority-low">Low</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input filter-priority" type="checkbox" value="Medium"
+                                        id="priority-medium">
+                                    <label class="form-check-label" for="priority-medium">Medium</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input filter-priority" type="checkbox" value="High"
+                                        id="priority-high">
+                                    <label class="form-check-label" for="priority-high">High</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input filter-priority" type="checkbox" value="Critical"
+                                        id="priority-critical">
+                                    <label class="form-check-label" for="priority-critical">Critical</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Assignee Filter -->
+                        <div class="dropdown">
+                            <button class="btn btn-outline-primary" data-bs-toggle="dropdown">
+                                <i class="fas fa-user"></i> Assignee
+                            </button>
+                            <div class="dropdown-menu p-3" style="min-width: 200px;">
+                                <h6 class="dropdown-header">Filter by Assignee</h6>
+
+                                <!-- template assignees list item -->
+                                <div class="form-check">
+                                    <input class="form-check-input filter-assignee" type="checkbox" value="Alice"
+                                        id="assignee-alice-filter">
+                                    <label class="form-check-label" for="assignee-alice-filter">Alice</label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Project Filter -->
+                        <div class="dropdown">
+                            <button class="btn btn-outline-primary" data-bs-toggle="dropdown">
+                                <i class="fas fa-folder"></i> Project
+                            </button>
+                            <div class="dropdown-menu p-3" style="min-width: 200px;">
+                                <h6 class="dropdown-header">Filter by Project</h6>
+
+                                <!-- template project list item -->
+                                <div class="form-check">
+                                    <input class="form-check-input filter-project" type="checkbox" value="Website"
+                                        id="project-website">
+                                    <label class="form-check-label" for="project-website">Website</label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sort Dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-primary" data-bs-toggle="dropdown">
+                    <i class="fas fa-sort-amount-down"></i> Sort
+                </button>
+                <div class="dropdown-menu">
+                    <h6 class="dropdown-header">Sort By</h6>
+                    <div class="dropdown-item">
+                        <div class="fw-bold">Status</div>
+                        <a href="#" class="text-decoration-none sort-option d-block ps-3" data-sort="status"
+                            data-dir="asc">
+                            To Do → Done
+                        </a>
+                        <a href="#" class="text-decoration-none sort-option d-block ps-3" data-sort="status"
+                            data-dir="desc">
+                            Done → To Do
+                        </a>
+                    </div>
+                    <div class="dropdown-item">
+                        <div class="fw-bold">Priority</div>
+                        <a href="#" class="text-decoration-none sort-option d-block ps-3" data-sort="priority"
+                            data-dir="asc">
+                            Low → Critical
+                        </a>
+                        <a href="#" class="text-decoration-none sort-option d-block ps-3" data-sort="priority"
+                            data-dir="desc">
+                            Critical → Low
+                        </a>
+                    </div>
+                    <div class="dropdown-item">
+                        <div class="fw-bold">Created</div>
+                        <a href="#" class="text-decoration-none sort-option d-block ps-3" data-sort="created"
+                            data-dir="asc">
+                            Oldest Created
+                        </a>
+                        <a href="#" class="text-decoration-none sort-option d-block ps-3" data-sort="created"
+                            data-dir="desc">
+                            Newest Created
+                        </a>
+                    </div>
+                    <div class="dropdown-item">
+                        <div class="fw-bold">Updated</div>
+                        <a href="#" class="text-decoration-none sort-option d-block ps-3" data-sort="updated"
+                            data-dir="asc">
+                            Least Recently Updated
+                        </a>
+                        <a href="#" class="text-decoration-none sort-option d-block ps-3" data-sort="updated"
+                            data-dir="desc">
+                            Recently Updated
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Issue Button -->
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addIssueModal"><i
+                    class="fas fa-plus"></i> Add</button>
+        </div>
+
+
+
+
+        <!-- Issue lists by status -->
+        <div id="issueContainer" class="d-flex flex-wrap justify-content-evenly gap-3 mt-4">
+
+            <!-- To Do col -->
+            <div id="status_0" class="d-flex flex-column align-items-center flex-grow-1"
+                style="min-width: 250px; max-width: 300px;">
+                <div class="card issue-header bg-light w-100 p-2 fs-5 align-items-center mb-1">
+                    To Do
+                </div>
+                <div class="cardsContainer d-flex flex-column gap-2 w-100"></div>
+            </div>
+
+            <!-- In Progress col -->
+            <div id="status_1" class="d-flex flex-column align-items-center flex-grow-1"
+                style="min-width: 250px; max-width: 300px;">
+                <div class="card issue-header bg-light w-100 p-2 fs-5 align-items-center mb-1">
+                    In Progress
+                </div>
+                <div class="cardsContainer d-flex flex-column gap-2 w-100"></div>
+            </div>
+
+            <!-- In Review col -->
+            <div id="status_2" class="d-flex flex-column align-items-center flex-grow-1"
+                style="min-width: 250px; max-width: 300px;">
+                <div class="card issue-header bg-light w-100 p-2 fs-5 align-items-center mb-1">
+                    In Review
+                </div>
+                <div class="cardsContainer d-flex flex-column gap-2 w-100"></div>
+            </div>
+
+            <!-- Done col -->
+            <div id="status_3" class="d-flex flex-column align-items-center flex-grow-1"
+                style="min-width: 250px; max-width: 300px;">
+                <div class="card issue-header bg-light w-100 p-2 fs-5 align-items-center mb-1">
+                    Done
+                </div>
+                <div class="cardsContainer d-flex flex-column gap-2 w-100">
+
+                    <!-- issue card template -->
+                    <div class="card issue-item" data-bs-toggle="modal" data-bs-target="#detailsModal">
+                        <div class="issue-title card-header">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div>
+                        <div class="card-body d-flex flex-column gap-1 align-items-start">
+                            <div class="mb-3">
+                                <span class="issue-description text-muted">Description of issue 1</span>
+                            </div>
+                            <div>
+                                <span class="fw-bold">Project: </span>
+                                <span id="project">Project Name</span>
+                            </div>
+                            <div>
+                                <span class="fw-bold">Priority: </span>
+                                <span id="priority">High</span>
+                            </div>
+                        </div>
+
+                        <div class="issue-actions d-flex justify-content-between gap-1 card-footer">
+                            <button id="b4btn" class="btn btn-outline-warning"><i
+                                    class="fas fa-arrow-left"></i></button>
+                            <button class="btn btn-outline-info"><i class="fas fa-pen"></i></button>
+                            <button class="btn btn-outline-danger"><i class="fas fa-trash-can"></i></button>
+                            <button id="nextbtn" class="btn btn-outline-success"><i
+                                    class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal for adding/updating new issue -->
+    <div class="modal fade" id="addIssueModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title fs-5">New Issue</span>
+                    <button class="btn-close" data-bs-dismiss="modal" data-bs-target="#addIssueModal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addIssueForm">
+                        <input type="hidden" id="issueId" value="">
+                        <div class="mb-3">
+                            <label for="issueTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" placeholder="Title" id="issueTitle">
+                        </div>
+                        <div class="mb-3">
+                            <label for="issueDesc" class="form-label">Description</label>
+                            <input type="text" class="form-control" placeholder="Description" id="issueDesc">
+                        </div>
+                        <div class="mb-3">
+                            <label for="issueStatus" class="form-label">Status</label>
+                            <select class="form-select" placeholder="Status" id="issueStatus">
+                                <option value="-1" class="text-muted" selected>Select Status</option>
+                                <option value="0">To Do</option>
+                                <option value="1">In Progress</option>
+                                <option value="2">In Review</option>
+                                <option value="3">Done</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="issuePriority" class="form-label">Priority</label>
+                            <select class="form-select" placeholder="Priority" id="issuePriority">
+                                <option value="-1" class="text-muted" selected>Select Priority</option>
+                                <option value="0">Low</option>
+                                <option value="1">Medium</option>
+                                <option value="2">High</option>
+                                <option value="3">Critical</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="issueProject" class="form-label">Associated Project</label>
+                            <select class="form-select" placeholder="Project" id="issueProject">
+                                <option value="-1" class="text-muted" selected>Select Project</option>
+                                <!-- options filled dynamically from projects table in db -->
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal"
+                        data-bs-target="#addIssueModal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="addIssueBtn">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for viewing issue details -->
+    <div class="modal fade" id="detailsModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title fs-5">Issue Details</span>
+                    <button class="btn-close" data-bs-dismiss="modal" data-bs-target="#detailsModal"></button>
+                </div>
+                <div class="modal-body">
+
+
+                    <div class="row mb-4 justify-content-between">
+                        <div class="w-50">
+                            <div class="d-flex gap-1">
+                                <button id="lowerbtnM" class="btn btn-outline-secondary w-25"><i
+                                        class="fas fa-arrow-down"></i></button>
+                                <!-- later change color depending on stat and priority level -->
+                                <span id="priorityM" class="btn btn-primary w-50">Priority</span>
+                                <button id="higherbtnM" class="btn btn-outline-warning w-25"><i
+                                        class="fas fa-arrow-up"></i></button>
+                            </div>
+                        </div>
+                        <div class="w-50">
+                            <div class="d-flex gap-1">
+                                <button id="b4btnM" class="btn btn-outline-warning w-25"><i
+                                        class="fas fa-arrow-left"></i></button>
+                                <!-- later change color depending on stat and priority level -->
+                                <span id="statusM" class="btn btn-primary w-50">Status</span>
+                                <button id="nextbtnM" class="btn btn-outline-success w-25"><i
+                                        class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <p id="title" class=" fs-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+                        <p id="description" class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+
+
+
+                    <div class="row mt-3">
+                        <div id="col1" class="d-flex flex-column gap-1 col-8 align-items-start">
+                            <div><span class="fw-bold">Project: </span><span id="projectM">Project Name</span></div>
+                            <!-- <div><span class="fw-bold">Added by: </span><span id="createdBy">John Doe</span></div> -->
+                            <div><span class="fw-bold">Created on: </span><span id="createdOn">2023-10-01</span></div>
+
+                        </div>
+
+                        <div id="col2" class="d-flex flex-column gap-2 col-4 align-items-end justify-content-center">
+                            <button id="editbtnM" class="btn btn-outline-info"><i class="fas fa-pen"></i></button>
+                            <button id="deletebtnM" class="btn btn-outline-danger"><i
+                                    class="fas fa-trash-can"></i></button>
+                        </div>
+                    </div>
+
+
+                    <div class="row justify-content-between mt-4">
+                        <div class="col-2 d-flex flex-column align-items-center">
+
+
+                            <span class="mb-3 align-self-start fw-bold">Assignees:</span>
+
+                            <div class="dropstart">
+                                <button id="addAssignee" class="rounded btn btn-outline-info btn-sm"
+                                    data-bs-toggle="dropdown"><i class="fas fa-plus"></i>
+                                </button>
+
+                                <div class="dropdown-menu p-3" style="min-width: 200px;">
+
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control search-bar" placeholder="Search assignee"
+                                            id="assigneeSearch">
+                                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                    </div>
+
+                                    <div id="assigneeList" class="overflow-auto" style="max-height: 300px;" data-issue-id="">
+           
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="John Doe"
+                                                    id="assignee-john">
+                                                <label class="form-check-label" for="assignee-john">John Doe</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Jane Smith"
+                                                    id="assignee-jane">
+                                                <label class="form-check-label" for="assignee-jane">Jane Smith</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Alice Johnson"
+                                                    id="assignee-alice">
+                                                <label class="form-check-label" for="assignee-alice">Alice
+                                                    Johnson</label>
+                                            </div>
+
+                                    </div>
+
+                                    <div class="d-flex justify-content-end">
+                                        <button id="assign" class="btn btn-sm btn-info">Assign</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div id="assignees" class="d-flex flex-wrap col-9 gap-1">
+                            <h6 class="m-0">
+                                <span class="badge bg-secondary d-flex align-items-center">
+                                    <span>John Doe</span>
+                                    <div class="d-flex align-items-end ms-2 gap-1">
+                                        <div class="vr"></div>
+                                        <button type="button" class="btn-close btn-close-white small-remove-btn"
+                                            aria-label="Remove" style="scale: 0.6;"></button>
+                                    </div>
+                                </span>
+                            </h6>
+                            <h6 class="m-0">
+                                <span class="badge bg-secondary d-flex align-items-center">
+                                    John Doe
+                                    <span class="vr ms-1"></span>
+                                    <button type="button" class="btn-close btn-close-white"
+                                        style="transform:scale(0.6)"></button>
+                                </span>
+                            </h6>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/script.js"></script>
+
+</body>
+
+</html>

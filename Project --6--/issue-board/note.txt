@@ -1,0 +1,45 @@
+| Code | Status      |
+| ---- | ----------- |
+| 0    | To Do       |
+| 1    | In Progress |
+| 2    | In Review   |
+| 3    | Done        |
+
+| Code | Priority |
+| ---- | -------- |
+| 0    | Low      |
+| 1    | Medium   |
+| 2    | High     |
+| 3    | Critical |
+
+| Code | User     |
+| ---- | -------- |
+| 0    | Admin    |
+| 1    | Member   |
+
+
+
+
+|    Safe to Store         |    Better to Keep Server-Side    |
+| ------------------------ | -------------------------------- |
+|    Issue title	       |    Internal IDs or hashes        |
+|    Status (label)	       |    Timestamps                    |
+|    Priority (label)	   |    User emails/user roles        |
+|    Frontend-only flags   |    Security-related info         |
+|    Short summaries	   |    Full descriptions             |
+
+
+
+getAll returns:
+[
+  {
+    "id": 1,
+    "title": "Fix login bug",
+    "project_id": 3,
+    "project_name": "Website",
+    "assignees": [
+      { "user_id": 2, "username": "Alice" },
+      { "user_id": 5, "username": "Bob" }
+    ]
+  }
+]
