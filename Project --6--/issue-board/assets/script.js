@@ -46,119 +46,138 @@ $(function () {
 
         let issueDiv = $('<div>').addClass('card issue-item').data('issue_details', details).attr('data-id', issue.id);
 
-        // title
-
-        let titleDiv = $('<div>').addClass('issue-title card-header').text(issue.title).attr('data-bs-toggle', 'modal').attr('data-bs-target', '#detailsModal').on('click', function () {
-            displayDetails(details);
-        });
-
-        // title
-
-
-        // body
-
-        let bodyDiv = $('<div>').addClass('card-body d-flex flex-column gap-1 align-items-start').attr('data-bs-toggle', 'modal').attr('data-bs-target', '#detailsModal').on('click', function () {
-            displayDetails(details);
-        });
-
-        let descriptionDiv = $('<div>').addClass('mb-3');
-
-        let descriptionSpan = $('<span>').addClass('issue-description text-muted').text(issue.description);
-
-        descriptionDiv.append(descriptionSpan);
-        bodyDiv.append(descriptionDiv);
-
-        let projectDiv = $('<div>');
-        let projectSpan = $('<span>').addClass('fw-bold').text('Project: ');
-        let projectNameSpan = $('<span>').text(issue.project_name);
-
-        projectDiv.append(projectSpan).append(projectNameSpan);
-        bodyDiv.append(projectDiv);
-
-        let priorityDiv = $('<div>');
-        let prioritySpan = $('<span>').addClass('fw-bold').text('Priority: ');
-
-        let priorityNameSpan = $('<span>').text(priority_name);
-
-        priorityDiv.append(prioritySpan).append(priorityNameSpan);
-        bodyDiv.append(priorityDiv);
-
-        // body
+        // placed all the rendering within the ajax success call 
+        // to ensure that the assignees are fully fetched 
+        // b4 the div is added to the DOM
+        $.ajax({
+            url: 'api/get_assignees.php',
+            type: 'GET',
+            data: { id: issue.id },
+            dataType: 'json',
+            success: function (results) {
+                const assignees = results.assignees.map(a => a.id); // grab just the IDs
+                issueDiv.data('assignees', assignees);
 
 
+                // title
+                let titleDiv = $('<div>').addClass('issue-title card-header').text(issue.title).attr('data-bs-toggle', 'modal').attr('data-bs-target', '#detailsModal').on('click', function () {
+                    displayDetails(details);
+                });
 
-        // actions
 
-        let actionsDiv = $('<div>').addClass('issue-actions d-flex justify-content-between gap-1 card-footer');
+                // body
 
-        // let b4btn = $('<button>').attr('id', 'b4btn').addClass('btn btn-outline-warning').html('<i class="fas fa-arrow-left"></i>');
+                let bodyDiv = $('<div>').addClass('card-body d-flex flex-column gap-1 align-items-start').attr('data-bs-toggle', 'modal').attr('data-bs-target', '#detailsModal').on('click', function () {
+                    displayDetails(details);
+                });
 
-        // let nextbtn = $('<button>').attr('id', 'nextbtn').addClass('btn btn-outline-success').html('<i class="fas fa-arrow-right"></i>');
+                let descriptionDiv = $('<div>').addClass('mb-3');
 
-        let b4btn = $('<button>', {
-            id: 'b4btn_' + issue.id,
-            type: 'button',
-            class: 'btn btn-outline-warning',
-            html: '<i class="fas fa-arrow-left"></i>',
-            disabled: status === 0
-        }).on('click', function () {
-            if (!$(this).prop('disabled')) {
-                const newStatus = status - 1;
-                updateStatus(issue.id, newStatus);
+                let descriptionSpan = $('<span>').addClass('issue-description text-muted').text(issue.description);
+
+                descriptionDiv.append(descriptionSpan);
+                bodyDiv.append(descriptionDiv);
+
+                let projectDiv = $('<div>');
+                let projectSpan = $('<span>').addClass('fw-bold').text('Project: ');
+                let projectNameSpan = $('<span>').text(issue.project_name);
+
+                projectDiv.append(projectSpan).append(projectNameSpan);
+                bodyDiv.append(projectDiv);
+
+                let priorityDiv = $('<div>');
+                let prioritySpan = $('<span>').addClass('fw-bold').text('Priority: ');
+
+                let priorityNameSpan = $('<span>').text(priority_name);
+
+                priorityDiv.append(prioritySpan).append(priorityNameSpan);
+                bodyDiv.append(priorityDiv);
+
+                // body
+
+
+
+                // actions
+
+                let actionsDiv = $('<div>').addClass('issue-actions d-flex justify-content-between gap-1 card-footer');
+
+                // let b4btn = $('<button>').attr('id', 'b4btn').addClass('btn btn-outline-warning').html('<i class="fas fa-arrow-left"></i>');
+
+                // let nextbtn = $('<button>').attr('id', 'nextbtn').addClass('btn btn-outline-success').html('<i class="fas fa-arrow-right"></i>');
+
+                let b4btn = $('<button>', {
+                    id: 'b4btn_' + issue.id,
+                    type: 'button',
+                    class: 'btn btn-outline-warning',
+                    html: '<i class="fas fa-arrow-left"></i>',
+                    disabled: status === 0
+                }).on('click', function () {
+                    if (!$(this).prop('disabled')) {
+                        const newStatus = status - 1;
+                        updateStatus(issue.id, newStatus);
+                    }
+                });
+
+                let nextbtn = $('<button>', {
+                    id: 'nextbtn_' + issue.id,
+                    type: 'button',
+                    class: 'btn btn-outline-success',
+                    html: '<i class="fas fa-arrow-right"></i>',
+                    disabled: status === 3
+                }).on('click', function () {
+                    if (!$(this).prop('disabled')) {
+                        const newStatus = status + 1;
+                        updateStatus(issue.id, newStatus);
+                    }
+                });
+
+                let editbtn = $('<button>').addClass('btn btn-outline-info').html('<i class="fas fa-pen"></i>').on('click', function () {
+                    $('#addIssueModal').modal('show');
+                    $('#addIssueModal').find('.modal-title').text('Edit Issue');
+                    $('#issueTitle').val(issue.title);
+                    $('#issueDesc').val(issue.description);
+
+                    populateProjects();
+
+                    setTimeout(() => {
+                        $('#issueProject').val(issue.project_id);
+                    }, 100);
+
+                    // $('#issueProject').val(issue.project_id);
+                    $('#issuePriority').val(issue.priority);
+                    console.log(issue.priority);
+                    console.log($('#issuePriority').val());
+                    $('#issueStatus').val(issue.status);
+                    $('#issueId').val(issue.id);
+                    $('#addIssueBtn').off('click').on('click', function () {
+                        updateIssue(issue.id)
+                    });
+                    $('#addIssueBtn').text('Update Issue');
+                });
+
+                let deletebtn = $('<button>').addClass('btn btn-outline-danger').html('<i class="fas fa-trash-can"></i>').on('click', function () {
+                    if (confirm('Are you sure you want to delete this issue?')) {
+                        deleteIssue(issue.id);
+                    }
+                });
+
+                actionsDiv.append(b4btn).append(editbtn).append(deletebtn).append(nextbtn);
+
+                // actions
+
+
+                issueDiv.append(titleDiv).append(bodyDiv).append(actionsDiv);
+
+                targetCol.prepend(issueDiv);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching assignees for issue', issue.id, error);
+                issueDiv.data('assignees', []); // fallback to empty
             }
         });
 
-        let nextbtn = $('<button>', {
-            id: 'nextbtn_' + issue.id,
-            type: 'button',
-            class: 'btn btn-outline-success',
-            html: '<i class="fas fa-arrow-right"></i>',
-            disabled: status === 3
-        }).on('click', function () {
-            if (!$(this).prop('disabled')) {
-                const newStatus = status + 1;
-                updateStatus(issue.id, newStatus);
-            }
-        });
-
-        let editbtn = $('<button>').addClass('btn btn-outline-info').html('<i class="fas fa-pen"></i>').on('click', function () {
-            $('#addIssueModal').modal('show');
-            $('#addIssueModal').find('.modal-title').text('Edit Issue');
-            $('#issueTitle').val(issue.title);
-            $('#issueDesc').val(issue.description);
-
-            populateProjects();
-
-            setTimeout(() => {
-                $('#issueProject').val(issue.project_id);
-            }, 100);
-
-            // $('#issueProject').val(issue.project_id);
-            $('#issuePriority').val(issue.priority);
-            console.log(issue.priority);
-            console.log($('#issuePriority').val());
-            $('#issueStatus').val(issue.status);
-            $('#issueId').val(issue.id);
-            $('#addIssueBtn').off('click').on('click', function () {
-                updateIssue(issue.id)
-            });
-            $('#addIssueBtn').text('Update Issue');
-        });
-
-        let deletebtn = $('<button>').addClass('btn btn-outline-danger').html('<i class="fas fa-trash-can"></i>').on('click', function (e) {
-            if (confirm('Are you sure you want to delete this issue?')) {
-                deleteIssue(issue.id);
-            }
-        });
-
-        actionsDiv.append(b4btn).append(editbtn).append(deletebtn).append(nextbtn);
-
-        // actions
 
 
-        issueDiv.append(titleDiv).append(bodyDiv).append(actionsDiv);
-
-        targetCol.prepend(issueDiv);
 
     }
 
@@ -258,6 +277,7 @@ $(function () {
         $('#issuePriority').val('-1');
         $('#issueStatus').val('-1');
     });
+
     $('#addIssueModal').on('hidden.bs.modal', function () {
         $('#addIssueBtn').text('Add Issue');
         $('#addIssueBtn').off('click').on('click', add);
@@ -280,7 +300,7 @@ $(function () {
             success: function (data) {
                 if (data.success) {
                     $(`.issue-item[data-id='${issueId}']`).remove();
-
+                    $('#detailsModal').modal('hide');
                 } else {
                     alert('Error deleting issue');
                 }
@@ -352,6 +372,28 @@ $(function () {
         });
     }
 
+    function updatePriority(issueId, newPriority) {
+        $.ajax({
+            url: 'api/update_priority.php',
+            type: 'POST',
+            data: { id: issueId, priority: newPriority },
+            dataType: 'json',
+            // ////////////////////////////////////////////////// //
+            success: function (data) {
+                if (data.success) {
+                    $(`.issue-item[data-id='${issueId}']`).remove();
+                    renderCard(data.issue);
+                } else {
+                    alert('Error updating issue status');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+                alert('An error occurred while updating the issue status.');
+            }
+        });
+    }
+
     // const details = {
     //         id: issue.id,
     //         title: issue.title,
@@ -386,9 +428,89 @@ $(function () {
         $('#assigneeList').attr("issue-id", data.id);
         console.log('Assigning to issue:', $('#assigneeList').attr('issue-id')); // here its there
 
+        $('#editbtnM').on('click', function () {
+            $('#detailsModal').modal('hide');
+            $('#addIssueModal').modal('show');
+            $('#addIssueModal').find('.modal-title').text('Edit Issue');
+            $('#issueTitle').val(data.title);
+            $('#issueDesc').val(data.description);
+
+            populateProjects();
+
+            setTimeout(() => {
+                $('#issueProject').val(data.project_id);
+            }, 100);
+
+            // $('#issueProject').val(data.project_id);
+            $('#issuePriority').val(data.priority);
+            console.log(data.priority);
+            console.log($('#issuePriority').val());
+            $('#issueStatus').val(data.status);
+            $('#issueId').val(data.id);
+            $('#addIssueBtn').off('click').on('click', function () {
+                updateIssue(data.id)
+            });
+            $('#addIssueBtn').text('Update Issue');
+
+        });
+
+        $('#deletebtnM').on('click', function () {
+            if (confirm('Are you sure you want to delete this issue?')) {
+                deleteIssue(data.id);
+            }
+        });
+
+        $('#b4btnM').attr('disabled', Number(data.status) === 0).on('click', function () {
+            if (!$(this).prop('disabled')) {
+                console.log("status: " + data.status);
+                const newStatus = Number(data.status) - 1;
+                console.log("new status: " + newStatus);
+                updateStatus(data.id, newStatus);
+                data.status = newStatus;
+                $('#statusM').text(getStatusName(newStatus));
+                $('#nextbtnM').attr('disabled', Number(data.status) === 3);
+                $(this).attr('disabled', Number(data.status) === 0);
+            }
+        });
+
+        $('#nextbtnM').attr('disabled', Number(data.status) === 3).on('click', function () {
+            if (!$(this).prop('disabled')) {
+                console.log("status: " + data.status);
+                const newStatus = Number(data.status) + 1;
+                console.log("new status: " + newStatus);
+                updateStatus(data.id, newStatus);
+                data.status = newStatus;
+                $('#statusM').text(getStatusName(newStatus));
+                $('#b4btnM').attr('disabled', Number(data.status) === 0);
+                $(this).attr('disabled', Number(data.status) === 3);
+            }
+        });
+
+        $('#lowerbtnM').attr('disabled', Number(data.priority) === 0).on('click', function () {
+            if (!$(this).prop('disabled')) {
+                const newPriority = Number(data.priority) - 1;
+                updatePriority(data.id, newPriority);
+                data.priority = newPriority;
+                $('#priorityM').text(getPriorityName(newPriority));
+                $('#higherbtnM').attr('disabled', Number(data.priority) === 3);
+                $(this).attr('disabled', Number(data.priority) === 0);
+            }
+        });
+
+        $('#higherbtnM').attr('disabled', Number(data.priority) === 3).on('click', function () {
+            if (!$(this).prop('disabled')) {
+                const newPriority = Number(data.priority) + 1;
+                updatePriority(data.id, newPriority);
+                data.priority = newPriority;
+                $('#priorityM').text(getPriorityName(newPriority));
+                $(this).attr('disabled', Number(data.priority) === 3);
+                $('#lowerbtnM').attr('disabled', Number(data.priority) === 0);
+            }
+        });
+
     }
 
-    function getAssignees(issue_id){
+    function getAssignees(issue_id) {
         $.ajax({
             url: 'api/get_assignees.php',
             type: 'GET',
@@ -455,14 +577,23 @@ $(function () {
                 users.forEach(user => {
                     const id = `assignee-${user.id}`;
 
-                    const checkbox = $(`
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="assignee_${id}" value="${user.id}">
-                        <label class="form-check-label" for="assignee_${id}">${user.username}</label>
-                    </div>
-                `);
+                    let checkbox = $('<input>')
+                        .attr('type', 'checkbox')
+                        .addClass('form-check-input') // add spacing after checkbox
+                        .val(user.id) // value should be user.id, not id!
+                        .attr('id', id);
 
-                    listDiv.append(checkbox);
+                    let label = $('<label>')
+                        .addClass('form-check-label p-2 rounded w-100 assignee-item')
+                        .attr('for', id)
+                        .text(user.username);
+
+                    let formDiv = $('<div>')
+                        .addClass("form-check d-flex align-items-center justify-content-between")
+                        .append(checkbox)
+                        .append(label);
+
+                    listDiv.append(formDiv);
                 });
             },
             error: function () {
@@ -487,13 +618,19 @@ $(function () {
                 issue_id: issueId,
                 user_ids: selectedUserIds
             },
-            traditional: true,
+            // traditional: true,
             dataType: 'json',
             success: function (res) {
                 if (res.success) {
                     // $('#detailsModal').modal('hide');
                     alert('Users assigned!');
                     getAssignees(issueId);
+
+
+                    const assigndropdown = bootstrap.Dropdown.getInstance($('#addAssignee'));
+                    assigndropdown.hide();
+
+
                     // optionally reload assignees view or call displayDetails again
                 } else {
                     alert(res.message || 'Failed to assign users.');
@@ -507,9 +644,208 @@ $(function () {
     });
 
 
+    $('#assigneeSearch').on('input', function () {
+        const searchTerm = $(this).val().toLowerCase();
+        const listDiv = $('#assigneeList');
+
+        listDiv.children('.form-check').each(function () {
+            const label = $(this).find('label').text().toLowerCase();
+            const shouldShow = label.includes(searchTerm);
+            // console.log(shouldShow);
+            $(this).closest('.form-check').toggleClass('d-none', !shouldShow);
+        })
+
+    });
+
+
+    // $('#searchIn').on('input', function () {
+    //     const searchTerm = $(this).val().toLowerCase();
+    //     const issueCards = $('.issue-item');
+    //     issueCards.each(function () {
+    //         const issueTitle = $(this).find('.issue-title').text().toLowerCase();
+    //         const issueDesc = $(this).find('.issue-description').text().toLowerCase();
+
+    //         const shouldShow = issueTitle.includes(searchTerm) || issueDesc.includes(searchTerm);
+
+    //         if (shouldShow) {
+    //             $(this).removeClass('d-none');
+    //         } else {
+    //             $(this).addClass('d-none');
+    //         }
+
+    //     });
+    // });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $('#assigneeFilterBtn').on('click', function () {
+        const assigneeListFilter = $('#assigneeFilterDropdown').children('div').children('div');
+        assigneeListFilter.empty();
+
+        $.ajax({
+            url: 'api/get_allAssignees.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {                data.assignees.forEach(assignee => {
+                    const formDiv = $('<div>').addClass('form-check');
+                    const assigneeIn = $('<input>').addClass('form-check-input filter-assignee').attr('type', 'checkbox').val(assignee.id).attr('id', 'assignee-' + assignee.id);
+                    const label = $('<label>').addClass('form-check-label').attr('for', 'assignee-' + assignee.id).text(assignee.name);
+
+                    formDiv.append(assigneeIn).append(label);
+
+                    assigneeListFilter.append(formDiv);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+                alert('An error occurred while fetching assignees.');
+            }
+        });
+
+
+
+    });
+
+    $('#projectFilterBtn').on('click', function () {
+        const projectListFilter = $('#projectFilterDropdown').children('div').children('div');
+        projectListFilter.empty();
+
+        $.ajax({
+            url: 'api/get_projects.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                data.projects.forEach(project => {
+                    const formDiv = $('<div>').addClass('form-check');
+                    const projectIn = $('<input>').addClass('form-check-input filter-project').attr('type', 'checkbox').val(project.id).attr('id', 'project-' + project.id);
+                    const label = $('<label>').addClass('form-check-label').attr('for', 'project-' + project.id).text(project.name);
+
+                    formDiv.append(projectIn).append(label);
+
+                    projectListFilter.append(formDiv);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+                alert('An error occurred while fetching projects.');
+            }
+        });
+
+
+
+    });
+
+
+    function applyFiltersAndSearch() {
+        const searchTerm = $('#searchIn').val().toLowerCase();
+
+        const selectedPriorities = $('.filter-priority:checked').map(function () {
+            return $(this).val();
+        }).get();
+
+        const selectedAssignees = $('.filter-assignee:checked').map(function () {
+            return $(this).val();
+        }).get();
+
+        const selectedProjects = $('.filter-project:checked').map(function () {
+            return $(this).val();
+        }).get();
+
+        $('.issue-item').each(function () {
+            const title = $(this).find('.issue-title').text().toLowerCase();
+            const desc = $(this).find('.issue-description').text().toLowerCase();
+
+            const priority = $(this).data('issue_details').priority;
+
+            const project = $(this).data('issue_details').project_id;
+            // console.log(project)
+
+            const assignees = $(this).data('assignees') || [];
+
+
+            // let assignees = [];
+            // const issue_id = $(this).data('issue_id');
+            // $.ajax({
+            //     url: 'api/get_assignees.php',
+            //     type: 'GET',
+            //     data: { id: issue_id },
+            //     dataType: 'json',
+            //     success: function (results) {
+            //         assignees = results.assignees || [];
+            //     },
+            //     error: function (xhr, status, error) {
+            //         console.error('Error:', error);
+            //         alert('An error occurred while fetching the assignees.');
+            //     }
+            // });
+
+            const matchSearch = title.includes(searchTerm) || desc.includes(searchTerm);
+
+            const matchPriority = selectedPriorities.length === 0 || selectedPriorities.includes(String(priority));
+
+            const matchProject = selectedProjects.length === 0 || selectedProjects.includes(String(project));
+            // console.log(matchProject + ' for selected: ' + selectedProjects + ' vs filter: ' + project);
+
+            const matchAssignee = selectedAssignees.length === 0 || selectedAssignees.some(a => assignees.map(String).includes(String(a)));
+            console.log(matchAssignee + ' for selected: ' + selectedAssignees + ' vs filter: ' + assignees);
+
+            const shouldShow = matchSearch && matchPriority && matchProject && matchAssignee;
+            // const shouldShow = matchSearch && matchPriority && matchProject;
+            $(this).toggleClass('d-none', !shouldShow);
+        });
+    }
+
+    // Event listeners
+    $('#searchIn').on('input', applyFiltersAndSearch);
+    // set the function call it as follows
+    // cz this allows the listener to be set
+    // on any future listed class item added to DOM
+    $(document).on('change', '.filter-priority, .filter-assignee, .filter-project', applyFiltersAndSearch);
+
+
+    $('.sort-option').on('click', function (e) {
+        e.preventDefault();
+
+        const sortKey = $(this).data('sort'); // status, priority, created, updated
+        const sortDir = $(this).data('dir'); // asc or desc
+
+        const allCards = $('.issue-item').toArray();
+
+        allCards.sort((a, b) => {
+            const aData = $(a).data('issue_details');
+            const bData = $(b).data('issue_details');
+
+            let aVal = aData[sortKey];
+            let bVal = bData[sortKey];
+
+            if (sortKey === 'created' || sortKey === 'updated') {
+                aVal = new Date(aVal);
+                bVal = new Date(bVal);
+            }
+
+            if (aVal < bVal) return sortDir === 'asc' ? -1 : 1;
+            if (aVal > bVal) return sortDir === 'asc' ? 1 : -1;
+            return 0;
+        });
+
+        // Re-append sorted cards
+        allCards.forEach(card => {
+            const status = $(card).data('issue_details').status;
+            $(`#status_${status} .cardsContainer`).append(card);
+        });
+    });
+
+
+
 })
-
-
-/////////////////////////////////////////////
-// multiple selects for assignees not working
-/////////////////////////////////////////////

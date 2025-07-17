@@ -14,12 +14,17 @@ if (!$issue_id || empty($user_ids)) {
     exit;
 }
 
-$stmt = $conn->prepare("INSERT IGNORE INTO issue_assignee (issue_id, user_id) VALUES (?, ?)");
+
 
 $errors = [];
 foreach ($user_ids as $uid) {
-    if (!is_numeric($uid)) $errors[] = $uid." isnt a nb";
-    $stmt->bind_param('ii', $issue_id, $uid);
+    if (!is_numeric($uid)) {
+        $errors[] = $uid . " isnt a nb";
+        continue;
+    }
+    $stmt = $conn->prepare("INSERT IGNORE INTO issue_assignee (issue_id, user_id) VALUES (?, ?)");
+    $user_id_temp = (int) $uid;
+    $stmt->bind_param('ii', $issue_id, $user_id_temp);
     if (!$stmt->execute()) {
         $errors[] = $stmt->error;
     }

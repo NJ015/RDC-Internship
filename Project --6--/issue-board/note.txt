@@ -43,3 +43,9 @@ getAll returns:
     ]
   }
 ]
+
+
+
+***Note:***
+This assumes that the users & projects are migrated 
+into the db as no sign up or add feature is implemented

@@ -11,3 +11,8 @@
 .assigneeXBtn {
   transform: scale(0.6);
 }
+
+.assignee-item:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}

@@ -74,60 +74,30 @@
                 <div class="card p-2 bg-light border border-primary">
                     <div class="d-flex gap-2 flex-wrap">
 
-                        <!-- Status Filter -->
-                        <div class="dropdown">
-                            <button class="btn btn-outline-primary" data-bs-toggle="dropdown">
-                                <i class="fas fa-tasks"></i> Status
-                            </button>
-                            <div class="dropdown-menu p-3" style="min-width: 200px;">
-                                <h6 class="dropdown-header">Filter by Status</h6>
-                                <div class="form-check">
-                                    <input class="form-check-input filter-status" type="checkbox" value="To Do"
-                                        id="status-todo">
-                                    <label class="form-check-label" for="status-todo">To Do</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input filter-status" type="checkbox" value="In Progress"
-                                        id="status-inprogress">
-                                    <label class="form-check-label" for="status-inprogress">In Progress</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input filter-status" type="checkbox" value="In Review"
-                                        id="status-inreview">
-                                    <label class="form-check-label" for="status-inreview">In Review</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input filter-status" type="checkbox" value="Done"
-                                        id="status-done">
-                                    <label class="form-check-label" for="status-done">Done</label>
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- Priority Filter -->
-                        <div class="dropdown">
+                        <div id="priorityFilterDropdown" class="dropdown">
                             <button class="btn btn-outline-primary" data-bs-toggle="dropdown">
                                 <i class="fas fa-flag"></i> Priority
                             </button>
                             <div class="dropdown-menu p-3" style="min-width: 200px;">
                                 <h6 class="dropdown-header">Filter by Priority</h6>
                                 <div class="form-check">
-                                    <input class="form-check-input filter-priority" type="checkbox" value="Low"
+                                    <input class="form-check-input filter-priority" type="checkbox" value="0"
                                         id="priority-low">
                                     <label class="form-check-label" for="priority-low">Low</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input filter-priority" type="checkbox" value="Medium"
+                                    <input class="form-check-input filter-priority" type="checkbox" value="1"
                                         id="priority-medium">
                                     <label class="form-check-label" for="priority-medium">Medium</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input filter-priority" type="checkbox" value="High"
+                                    <input class="form-check-input filter-priority" type="checkbox" value="2"
                                         id="priority-high">
                                     <label class="form-check-label" for="priority-high">High</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input filter-priority" type="checkbox" value="Critical"
+                                    <input class="form-check-input filter-priority" type="checkbox" value="3"
                                         id="priority-critical">
                                     <label class="form-check-label" for="priority-critical">Critical</label>
                                 </div>
@@ -135,38 +105,38 @@
                         </div>
 
                         <!-- Assignee Filter -->
-                        <div class="dropdown">
-                            <button class="btn btn-outline-primary" data-bs-toggle="dropdown">
+                        <div id="assigneeFilterDropdown" class="dropdown">
+                            <button id="assigneeFilterBtn" class="btn btn-outline-primary" data-bs-toggle="dropdown">
                                 <i class="fas fa-user"></i> Assignee
                             </button>
                             <div class="dropdown-menu p-3" style="min-width: 200px;">
                                 <h6 class="dropdown-header">Filter by Assignee</h6>
-
-                                <!-- template assignees list item -->
-                                <div class="form-check">
-                                    <input class="form-check-input filter-assignee" type="checkbox" value="Alice"
-                                        id="assignee-alice-filter">
-                                    <label class="form-check-label" for="assignee-alice-filter">Alice</label>
+                                <div>
+                                    <!-- template assignees list item -->
+                                    <div class="form-check">
+                                        <input class="form-check-input filter-assignee" type="checkbox" value="Alice"
+                                            id="assignee-alice-filter">
+                                        <label class="form-check-label" for="assignee-alice-filter">Alice</label>
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
 
                         <!-- Project Filter -->
-                        <div class="dropdown">
-                            <button class="btn btn-outline-primary" data-bs-toggle="dropdown">
+                        <div id="projectFilterDropdown" class="dropdown">
+                            <button id="projectFilterBtn" class="btn btn-outline-primary" data-bs-toggle="dropdown">
                                 <i class="fas fa-folder"></i> Project
                             </button>
                             <div class="dropdown-menu p-3" style="min-width: 200px;">
                                 <h6 class="dropdown-header">Filter by Project</h6>
-
-                                <!-- template project list item -->
-                                <div class="form-check">
-                                    <input class="form-check-input filter-project" type="checkbox" value="Website"
-                                        id="project-website">
-                                    <label class="form-check-label" for="project-website">Website</label>
+                                <div>
+                                    <!-- template project list item -->
+                                    <div class="form-check">
+                                        <input class="form-check-input filter-project" type="checkbox" value="Website"
+                                            id="project-website">
+                                        <label class="form-check-label" for="project-website">Website</label>
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
 
@@ -181,17 +151,6 @@
                 </button>
                 <div class="dropdown-menu">
                     <h6 class="dropdown-header">Sort By</h6>
-                    <div class="dropdown-item">
-                        <div class="fw-bold">Status</div>
-                        <a href="#" class="text-decoration-none sort-option d-block ps-3" data-sort="status"
-                            data-dir="asc">
-                            To Do → Done
-                        </a>
-                        <a href="#" class="text-decoration-none sort-option d-block ps-3" data-sort="status"
-                            data-dir="desc">
-                            Done → To Do
-                        </a>
-                    </div>
                     <div class="dropdown-item">
                         <div class="fw-bold">Priority</div>
                         <a href="#" class="text-decoration-none sort-option d-block ps-3" data-sort="priority"
@@ -275,7 +234,7 @@
                 <div class="cardsContainer d-flex flex-column gap-2 w-100">
 
                     <!-- issue card template -->
-                    <div class="card issue-item" data-bs-toggle="modal" data-bs-target="#detailsModal">
+                    <div class="card issue-item " data-bs-toggle="modal" data-bs-target="#detailsModal">
                         <div class="issue-title card-header">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         </div>
                         <div class="card-body d-flex flex-column gap-1 align-items-start">
@@ -435,10 +394,10 @@
 
                             <div class="dropstart">
                                 <button id="addAssignee" class="rounded btn btn-outline-info btn-sm"
-                                    data-bs-toggle="dropdown"><i class="fas fa-plus"></i>
+                                    data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="fas fa-plus"></i>
                                 </button>
 
-                                <div class="dropdown-menu p-3" style="min-width: 200px;">
+                                <div class="dropdown-menu p-3" style="min-width: 220px;">
 
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control search-bar" placeholder="Search assignee"
@@ -446,26 +405,14 @@
                                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                                     </div>
 
-                                    <div id="assigneeList" class="overflow-auto" style="max-height: 300px;" data-issue-id="">
-           
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="John Doe"
-                                                    id="assignee-john">
-                                                <label class="form-check-label" for="assignee-john">John Doe</label>
-                                            </div>
+                                    <div id="assigneeList" class="overflow-auto d-flex flex-column gap-1"
+                                        style="max-height: 200px;" data-issue-id="">
 
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Jane Smith"
-                                                    id="assignee-jane">
-                                                <label class="form-check-label" for="assignee-jane">Jane Smith</label>
-                                            </div>
-
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Alice Johnson"
-                                                    id="assignee-alice">
-                                                <label class="form-check-label" for="assignee-alice">Alice
-                                                    Johnson</label>
-                                            </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="John Doe"
+                                                id="assignee-john">
+                                            <label class="form-check-label" for="assignee-john">John Doe</label>
+                                        </div>
 
                                     </div>
 
